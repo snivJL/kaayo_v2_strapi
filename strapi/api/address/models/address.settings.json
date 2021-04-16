@@ -1,0 +1,48 @@
+{
+  "kind": "collectionType",
+  "collectionName": "addresses",
+  "info": {
+    "name": "address",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "address": {
+      "type": "string",
+      "required": true
+    },
+    "city": {
+      "type": "string",
+      "required": true
+    },
+    "district": {
+      "type": "string"
+    },
+    "ward": {
+      "type": "string"
+    },
+    "country": {
+      "type": "string"
+    },
+    "postalCode": {
+      "type": "integer"
+    },
+    "orders": {
+      "collection": "order",
+      "via": "address"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "shipping",
+        "billing"
+      ],
+      "default": "shipping",
+      "required": true
+    }
+  }
+}

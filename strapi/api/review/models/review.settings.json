@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reviews",
+  "info": {
+    "name": "review"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "email": {
+      "type": "email",
+      "unique": true,
+      "required": true
+    },
+    "rating": {
+      "type": "integer",
+      "required": true,
+      "max": 5,
+      "min": 0
+    },
+    "title": {
+      "type": "string"
+    },
+    "comment": {
+      "type": "text"
+    }
+  }
+}

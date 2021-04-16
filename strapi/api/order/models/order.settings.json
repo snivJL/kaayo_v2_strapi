@@ -1,0 +1,80 @@
+{
+  "kind": "collectionType",
+  "collectionName": "orders",
+  "info": {
+    "name": "order",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "users_permissions_user": {
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "products": {
+      "collection": "product"
+    },
+    "total": {
+      "type": "decimal",
+      "required": true
+    },
+    "paymentMethod": {
+      "type": "enumeration",
+      "enum": [
+        "cod",
+        "paypal"
+      ]
+    },
+    "shippingPrice": {
+      "type": "integer",
+      "required": true,
+      "default": 0
+    },
+    "status": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "paid",
+        "delivering",
+        "delivered"
+      ],
+      "required": true,
+      "default": "pending"
+    },
+    "isPaid": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "isDelivered": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "isSent": {
+      "type": "boolean",
+      "default": false,
+      "required": true
+    },
+    "paidAt": {
+      "type": "datetime",
+      "required": false
+    },
+    "deliveredAt": {
+      "type": "datetime",
+      "required": false
+    },
+    "sentAt": {
+      "type": "datetime",
+      "required": false
+    },
+    "address": {
+      "via": "orders",
+      "model": "address"
+    }
+  }
+}
