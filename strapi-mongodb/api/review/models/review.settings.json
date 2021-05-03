@@ -1,0 +1,52 @@
+{
+  "kind": "collectionType",
+  "collectionName": "reviews",
+  "info": {
+    "name": "review",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "comment": {
+      "type": "text"
+    },
+    "rating": {
+      "type": "integer",
+      "min": 0,
+      "max": 5,
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "required": true
+    },
+    "users_permissions_user": {
+      "via": "reviews",
+      "plugin": "users-permissions",
+      "model": "user"
+    },
+    "images": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    },
+    "product": {
+      "model": "product",
+      "via": "reviews"
+    }
+  }
+}

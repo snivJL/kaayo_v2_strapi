@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "addresses",
+  "info": {
+    "name": "address"
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "address": {
+      "type": "string",
+      "required": true
+    },
+    "city": {
+      "type": "string",
+      "required": true
+    },
+    "district": {
+      "type": "string",
+      "required": true
+    },
+    "ward": {
+      "type": "string"
+    },
+    "postCode": {
+      "type": "integer"
+    },
+    "country": {
+      "type": "string",
+      "required": true,
+      "default": "vietnam"
+    }
+  }
+}

@@ -1,0 +1,26 @@
+.product-card-hidden,
+.product-card-actions {
+  width: 100%;
+  opacity: 0;
+  transition: 0.5s ease;
+}
+.product-card-actions {
+  bottom: 1px;
+}
+.product-card-actions button {
+  background: none;
+}
+.product-card-hidden {
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+.product-card {
+  z-index: 9999;
+}
+.product-card:hover .product-card-hidden,
+.product-card:hover .product-card-actions {
+  opacity: 100;
+}

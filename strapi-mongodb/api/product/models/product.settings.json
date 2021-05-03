@@ -1,0 +1,59 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "name": "product",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "price": {
+      "type": "integer"
+    },
+    "short_desc": {
+      "type": "string"
+    },
+    "description": {
+      "type": "text"
+    },
+    "images": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "files",
+        "images",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": true
+    },
+    "countInStock": {
+      "type": "integer",
+      "required": true
+    },
+    "weight": {
+      "type": "integer"
+    },
+    "categories": {
+      "collection": "category",
+      "via": "products",
+      "dominant": true
+    },
+    "ingredients": {
+      "collection": "ingredient",
+      "via": "products",
+      "dominant": true
+    },
+    "reviews": {
+      "via": "product",
+      "collection": "review"
+    }
+  }
+}

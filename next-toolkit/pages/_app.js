@@ -1,0 +1,40 @@
+import React from "react";
+import NextApp from "next/app";
+import withReduxStore from "../lib/with-redux-store";
+import { Provider } from "react-redux";
+import { ChakraProvider } from "@chakra-ui/react";
+import Alert from "../components/Alert";
+import "react-toastify/dist/ReactToastify.css";
+import Navbar from "../components/Navbar";
+import theme from "../chakraTheme";
+import "./style.css";
+
+class App extends NextApp {
+  static async getInitialProps({ Component, ctx }) {
+    let pageProps = {};
+
+    if (Component.getInitialProps) {
+      pageProps = await Component.getInitialProps(ctx);
+    }
+
+    return {
+      pageProps,
+    };
+  }
+
+  render() {
+    const { Component, pageProps, reduxStore } = this.props;
+
+    return (
+      <Provider store={reduxStore}>
+        <ChakraProvider theme={theme}>
+          <Alert />
+          <Navbar />
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </Provider>
+    );
+  }
+}
+
+export default withReduxStore(App);
