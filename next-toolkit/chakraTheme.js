@@ -5,5 +5,32 @@ const theme = extendTheme({
     heading: "Open Sans",
     body: "Raleway",
   },
+  styles: {
+    global: {
+      "html, body": {
+        boxSizing: "border-box",
+        color: "gray.600",
+        lineHeight: "tall",
+      },
+      // a: {
+      //   color: "teal.500",
+      // },
+    },
+  },
+  components: {
+    Popover: {
+      // 1. We can update the base style
+      baseStyle: {
+        borderColor: "green.200", // Normally, it is "semibold"
+      },
+      // 2. We can add a new button size or extend existing
+      sizes: {
+        lg: {
+          w: "240px",
+        },
+      },
+      // 3. We can add a new visual variant
+    },
+  },
 });
 export default theme;

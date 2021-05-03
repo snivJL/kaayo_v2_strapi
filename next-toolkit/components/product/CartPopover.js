@@ -1,12 +1,12 @@
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import {
   IconButton,
   Popover,
   PopoverTrigger,
   PopoverContent,
   PopoverBody,
-  PopoverFooter,
   PopoverArrow,
   PopoverCloseButton,
   VStack,
@@ -24,15 +24,15 @@ const CartPopover = () => {
   const cart = useSelector((state) => state.order.cart);
 
   return (
-    <Popover>
+    <Popover size="lg">
       <PopoverTrigger>
         <IconButton
           aria-label="View my cart"
           icon={<FontAwesomeIcon icon={faShoppingBag}></FontAwesomeIcon>}
         ></IconButton>
       </PopoverTrigger>
-      <PopoverContent p={4}>
-        <PopoverArrow />
+      <PopoverContent p={4} mr={4}>
+        <PopoverArrow ml={2} />
         <PopoverCloseButton />
         {/* <PopoverHeader>Confirmation!</PopoverHeader> */}
         <PopoverBody>
@@ -40,14 +40,14 @@ const CartPopover = () => {
             <Box w="100%">
               {cart.length > 0 ? (
                 cart.map((i) => (
-                  <Flex align="center" justify="space-around" mb={2}>
+                  <Flex align="center" justify="start" mb={2}>
                     <Image
                       src="/images/christopher.png"
                       alt="Picture of the product"
                       width={100}
                       height={120}
                     />
-                    <VStack>
+                    <VStack ml="auto" pr={4} align="start">
                       <Text>{i.product.name}</Text>
                       <Text fontSize="sm">Qty: {i.qty}</Text>
                       <Text fontSize="sm">&#8363;{i.product.price}</Text>
@@ -63,8 +63,12 @@ const CartPopover = () => {
                 <Text>Total:</Text>
                 <Text>&#8363;{localStorage.getItem("orderPrice")}</Text>
               </Flex>
-              <Button>View Cart</Button>
-              <Button>Checkout</Button>
+              <Button colorScheme="green" variant="outline">
+                <Link href="/cart">View Cart</Link>
+              </Button>
+              <Button colorScheme="green" variant="outline">
+                Checkout
+              </Button>
             </VStack>
           </VStack>
         </PopoverBody>

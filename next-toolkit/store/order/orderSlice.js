@@ -6,7 +6,9 @@ const initialState = {
   status: "pending",
   cart:
     typeof window !== "undefined"
-      ? JSON.parse(window.localStorage.getItem("cart"))
+      ? window.localStorage.getItem("cart")
+        ? JSON.parse(window.localStorage.getItem("cart"))
+        : []
       : [],
   price:
     typeof window !== "undefined"
@@ -56,6 +58,19 @@ export const orderSlice = createSlice({
         : state.error === "Product does not exist";
       localStorage.setItem("cart", JSON.stringify(current(state.cart)));
     },
+    updateCart(state, action) {
+      state.cart.splice(0, state.cart.length, ...action.payload);
+      state.price = state.cart.reduce((acc, item) => {
+        return acc + item.product.price * item.qty;
+      }, 0);
+      localStorage.setItem("cart", JSON.stringify(current(state.cart)));
+      localStorage.setItem("orderPrice", state.price);
+    },
+    clearCart(state) {
+      state.cart.splice(0, state.cart.length, []);
+      localStorage.removeItem("cart", JSON.stringify(current(state.cart)));
+      localStorage.removeItem("orderPrice", state.price);
+    },
   },
   extraReducers: {
     [createOrder.pending]: (state, action) => {
@@ -73,7 +88,7 @@ export const orderSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addToCart } = orderSlice.actions;
+export const { addToCart, updateCart, clearCart } = orderSlice.actions;
 
 export const cart = (state) => state.order.cart;
 
