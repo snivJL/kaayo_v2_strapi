@@ -18,9 +18,8 @@ import {
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import { useDispatch } from "react-redux";
 import { logout } from "../store/auth/authSlice";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 import "./Navbar.module.css";
+import CartPopover from "./product/CartPopover";
 
 const Links = ["/", "/shop", "/login"];
 
@@ -96,7 +95,7 @@ export default function Navbar() {
                 <MenuItem>Link 3</MenuItem>
               </MenuList>
             </Menu>
-            <FontAwesomeIcon icon={faShoppingBag}></FontAwesomeIcon>
+            <CartPopover />
           </Flex>
         </Flex>
 
