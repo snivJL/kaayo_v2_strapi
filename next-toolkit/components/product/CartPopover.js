@@ -22,7 +22,7 @@ import { useSelector } from "react-redux";
 
 const CartPopover = () => {
   const cart = useSelector((state) => state.order.cart);
-  console.log(cart);
+
   return (
     <Popover>
       <PopoverTrigger>
@@ -61,7 +61,7 @@ const CartPopover = () => {
             <VStack w="100%">
               <Flex w="100%" align="center" justify="space-between">
                 <Text>Total:</Text>
-                <Text>&#8363;{cart.totalPrice}</Text>
+                <Text>&#8363;{localStorage.getItem("orderPrice")}</Text>
               </Flex>
               <Button>View Cart</Button>
               <Button>Checkout</Button>

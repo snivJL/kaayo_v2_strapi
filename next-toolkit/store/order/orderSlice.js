@@ -8,6 +8,10 @@ const initialState = {
     typeof window !== "undefined"
       ? JSON.parse(window.localStorage.getItem("cart"))
       : [],
+  price:
+    typeof window !== "undefined"
+      ? JSON.parse(window.localStorage.getItem("orderPrice"))
+      : 0,
   error: "",
 };
 
@@ -36,6 +40,10 @@ export const orderSlice = createSlice({
               : x
           );
       localStorage.setItem("cart", JSON.stringify(current(state.cart)));
+      state.price = state.cart.reduce((acc, item) => {
+        return acc + item.product.price * item.qty;
+      }, 0);
+      localStorage.setItem("orderPrice", state.price);
 
       // console.log(JSON.stringify(current(state.cart)));
       // () => Cookie.set("cart", current(state.cart));
