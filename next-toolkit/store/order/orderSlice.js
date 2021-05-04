@@ -15,6 +15,13 @@ const initialState = {
       ? JSON.parse(window.localStorage.getItem("orderPrice"))
       : 0,
   error: "",
+  phone: "",
+  fullname: "",
+  address: "",
+  city: "",
+  ward: "",
+  district: "",
+  paymentMethod: "",
 };
 
 export const createOrder = createAsyncThunk("orders/create", async (order) => {
@@ -66,10 +73,41 @@ export const orderSlice = createSlice({
       localStorage.setItem("cart", JSON.stringify(current(state.cart)));
       localStorage.setItem("orderPrice", state.price);
     },
-    clearCart(state) {
-      state.cart.splice(0, state.cart.length, []);
-      localStorage.removeItem("cart", JSON.stringify(current(state.cart)));
-      localStorage.removeItem("orderPrice", state.price);
+    clearCart(state, action) {
+      if (action.payload) {
+        const newArray = current(state.cart).filter((i) => {
+          console.log("in filter", action.payload, i.product.id);
+          return i.product.id !== action.payload;
+        });
+        console.log(
+          "FILTERED ARRAY",
+          newArray,
+          action.payload,
+          current(state.cart)
+        );
+        state.cart.splice(0, state.cart.length, ...newArray);
+      } else {
+        state.cart.splice(0, state.cart.length, []);
+      }
+
+      localStorage.setItem("cart", JSON.stringify(current(state.cart)));
+      localStorage.setItem("orderPrice", state.price);
+    },
+    addEmail(state, action) {
+      state.email = action.payload.email;
+    },
+    addShipping(state, action) {
+      const { payload } = action;
+      state.phone = payload.phone;
+      state.fullname = payload.fullname;
+      state.address = payload.address;
+      state.city = payload.city;
+      state.ward = payload.ward;
+      state.district = payload.district;
+    },
+    addPaymentMethod(state, action) {
+      const { payload } = action;
+      state.paymentMethod = payload;
     },
   },
   extraReducers: {
@@ -88,7 +126,15 @@ export const orderSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { addToCart, updateCart, clearCart } = orderSlice.actions;
+export const {
+  addToCart,
+  updateCart,
+  clearCart,
+  addEmail,
+  removeFromCart,
+  addShipping,
+  addPaymentMethod,
+} = orderSlice.actions;
 
 export const cart = (state) => state.order.cart;
 

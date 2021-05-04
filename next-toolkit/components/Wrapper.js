@@ -1,8 +1,9 @@
 import { Box } from "@chakra-ui/react";
-const Wrapper = ({ children, variant = "large" }) => {
+const Wrapper = ({ children, variant = "large", bg = "white" }) => {
   return (
     <Box
       mt={8}
+      bg={bg}
       mx="auto"
       maxW={
         variant !== "regular"

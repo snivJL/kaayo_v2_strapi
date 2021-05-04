@@ -34,11 +34,10 @@ const CartPopover = () => {
       <PopoverContent p={4} mr={4}>
         <PopoverArrow ml={2} />
         <PopoverCloseButton />
-        {/* <PopoverHeader>Confirmation!</PopoverHeader> */}
         <PopoverBody>
           <VStack divider={<StackDivider mx={0} borderColor="gray.200" />}>
             <Box w="100%">
-              {cart.length > 0 ? (
+              {cart && cart.length > 0 ? (
                 cart.map((i) => (
                   <Flex align="center" justify="start" mb={2}>
                     <Image

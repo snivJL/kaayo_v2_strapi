@@ -22,3 +22,16 @@ export const reviewSchema = Yup.object().shape({
     .email("Invalid email")
     .required("Please enter a valid email"),
 });
+
+export const emailSchema = Yup.object().shape({
+  email: Yup.string().email("Invalid email").required("Required"),
+});
+
+export const shippingSchema = Yup.object().shape({
+  fullname: Yup.string().required("Required"),
+  address: Yup.string().required("Required"),
+  phone: Yup.string().required("Required"),
+  city: Yup.string().required("Required"),
+  district: Yup.string(),
+  ward: Yup.string(),
+});

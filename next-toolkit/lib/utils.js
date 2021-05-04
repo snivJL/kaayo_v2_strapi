@@ -10,3 +10,10 @@ export const getAverageRating = (product) => {
 export const getNumReviews = (product) => {
   return product.reviews.length - 1;
 };
+
+function decode(str) {
+  return str.replace(/&#(\d+);/g, function (match, dec) {
+    return String.fromCharCode(dec);
+  });
+}
+export const VND = decode(&#8363;);

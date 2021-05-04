@@ -3,7 +3,6 @@ import {
   FormLabel,
   FormErrorMessage,
   Input,
-  MenuItem,
 } from "@chakra-ui/react";
 import { useField } from "formik";
 
