@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import api from "../api";
 import {
   SimpleGrid,
   Box,
@@ -16,7 +17,7 @@ import ReviewOrder from "../components/checkout/ReviewOrder";
 import OrderSummary from "../components/checkout/OrderSummary";
 import { useSelector } from "react-redux";
 
-const checkout = () => {
+const checkout = ({ user }) => {
   const [step, setStep] = useState(1);
   const handleStep = (value) => setStep(value);
   const email = useSelector((state) => state.order.email);
@@ -40,7 +41,7 @@ const checkout = () => {
             </Heading>
             {email && <Text>{email}</Text>}
             <Collapse in={step === 1} animateOpacity>
-              <EmailForm handleStep={handleStep} />
+              <EmailForm user={user} handleStep={handleStep} />
             </Collapse>
           </Box>
           <Box>
@@ -86,4 +87,21 @@ const checkout = () => {
   );
 };
 
+// export const getStaticProps = async () => {
+//   try {
+//     const res = await api.get("http://localhost:1337/users/me");
+//     const data = await res.json();
+//     return {
+//       props: {
+//         user: data,
+//       },
+//     };
+//   } catch (error) {
+//     return {
+//       props: {
+//         user: error,
+//       },
+//     };
+//   }
+// };
 export default checkout;

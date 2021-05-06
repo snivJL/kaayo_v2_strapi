@@ -18,6 +18,7 @@ import Image from "next/image";
 import { clearCart } from "../../store/order/orderSlice";
 import Coupon from "./Coupon";
 import { VND } from "../../lib/utils";
+import ProductQtyForm from "./ProductQtyForm";
 
 const OrderSummary = () => {
   const dispatch = useDispatch();
@@ -30,8 +31,8 @@ const OrderSummary = () => {
       </Heading>
       <Flex my={4} direction="column">
         {cart && cart.length > 0 ? (
-          cart.map((i) => (
-            <Flex align="center" py={4} justify="space-between">
+          cart.map((i, index) => (
+            <Flex key={index} align="center" py={4} justify="space-between">
               <Box w="20%">
                 <Image
                   src="/images/christopher.png"
@@ -46,14 +47,11 @@ const OrderSummary = () => {
                 <Text>{i.product.category}</Text>
               </Stack>
               <Stack w="20%" align="start">
-                <Text>{i.product.price}</Text>
-                <NumberInput>
-                  <NumberInputField />
-                  <NumberInputStepper>
-                    <NumberIncrementStepper children="+" />
-                    <NumberDecrementStepper children="-" />
-                  </NumberInputStepper>
-                </NumberInput>
+                <Text>
+                  {VND()}
+                  {i.product.price}
+                </Text>
+                <ProductQtyForm item={i} index={index} />
                 <Button
                   fontSize="sm"
                   variant="link"
@@ -72,16 +70,19 @@ const OrderSummary = () => {
       <Flex my={4} direction="column">
         <Flex color="gray.500" justify="space-between">
           <Text>Subtotal</Text>
-          <Text>{price}</Text>
+          <Text>
+            {VND()}
+            {price}
+          </Text>
         </Flex>
         <Flex color="gray.500" justify="space-between">
           <Text>Shipping</Text>
-          <Text>40000</Text>
+          <Text>{VND()}40000</Text>
         </Flex>
         <Flex my={2} justify="space-between">
           <Text>Total</Text>
           <Text>
-            {VND}
+            {VND()}
             {price + 40000}
           </Text>
         </Flex>

@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { increment, decrement } from "../store/count/countSlice";
 
 const IndexPage = ({ counted, increment, decrement, global, appProps }) => {
+  console.log(global, appProps);
   return (
     <div>
       <h1>Simple implement Next.js With Redux Toolkit</h1>

@@ -17,7 +17,7 @@ export default class StrapiApi {
     console.log(requestUrl);
     const response = await fetch(requestUrl),{
       headers :{
-        Authorization: "Bearer " + Cookie.get("jwt"),
+        Authorization: `Bearer ${Cookie.get("jwt")}`,
       };}
     const data = await response.json();
     return data;

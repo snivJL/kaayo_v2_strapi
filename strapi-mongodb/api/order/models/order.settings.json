@@ -91,6 +91,13 @@
     },
     "postCode": {
       "type": "integer"
+    },
+    "email": {
+      "type": "email"
+    },
+    "phone": {
+      "type": "string",
+      "required": true
     }
   }
 }

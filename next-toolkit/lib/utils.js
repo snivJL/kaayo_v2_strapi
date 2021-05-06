@@ -1,3 +1,4 @@
+import { Text } from "@chakra-ui/react";
 export const getAverageRating = (product) => {
   return (
     product.reviews.reduce((acc, r) => {
@@ -16,4 +17,8 @@ function decode(str) {
     return String.fromCharCode(dec);
   });
 }
-export const VND = decode(&#8363;);
+export const VND = (size = "sm") => (
+  <Text as="span" fontSize={size}>
+    ₫
+  </Text>
+);

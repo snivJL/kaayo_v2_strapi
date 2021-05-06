@@ -7,6 +7,7 @@ const initialState = {
   user: {},
   status: "idle",
   isAuth: !!Cookie.get("jwt"),
+  jwt: Cookie.get("jwt"),
   error: null,
 };
 
@@ -26,11 +27,13 @@ export const login = createAsyncThunk(
   "auth/login",
   async (values, { rejectWithValue }) => {
     try {
+      console.log(values, "REDUCER");
       const { data } = await api.post(`/auth/local`, values);
+      Cookie.set("jwt", data.jwt);
       return data;
     } catch (error) {
       console.log("reject with value", error.message);
-      return rejectWithValue(error.message);
+      return rejectWithValue(error.message ? error.message : error);
     }
   }
 );
@@ -43,6 +46,9 @@ export const authSlice = createSlice({
       Cookie.remove("jwt");
       state.isAuth = false;
     },
+    setUser(state, action) {
+      state.user = action.payload;
+    },
   },
   extraReducers: {
     [register.pending]: (state, action) => {
@@ -54,6 +60,7 @@ export const authSlice = createSlice({
     },
     [register.rejected]: (state, action) => {
       state.status = "failed";
+      console.log("HERE", state.error);
       state.error = action.payload[0].messages[0].message;
       toast.error(action.payload[0].messages[0].message);
     },
@@ -64,6 +71,7 @@ export const authSlice = createSlice({
       state.status = "succeeded";
       Cookie.set("jwt", action.payload.jwt);
       state.isAuth = true;
+      state.jwt = action.payload.jwt;
       state.user = action.payload;
     },
     [login.rejected]: (state, action) => {
@@ -75,6 +83,6 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { logout } = authSlice.actions;
+export const { logout, setUser } = authSlice.actions;
 
 export default authSlice.reducer;

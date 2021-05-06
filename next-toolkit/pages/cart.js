@@ -7,7 +7,6 @@ import {
   Button,
   Flex,
   Text,
-  VStack,
   Table,
   Thead,
   Tbody,
@@ -25,6 +24,8 @@ import {
 import Wrapper from "../components/Wrapper";
 import { useSelector, useDispatch } from "react-redux";
 import { updateCart, clearCart } from "../store/order/orderSlice";
+import ProductQtyForm from "../components/checkout/ProductQtyForm";
+
 const Cart = () => {
   let cart = useSelector((state) => state.order.cart);
   let cartPrice = useSelector((state) => state.order.price);
@@ -72,21 +73,7 @@ const Cart = () => {
                     {item.product.price}
                   </Td>
                   <Td>
-                    <NumberInput
-                      w="30%"
-                      mr={4}
-                      size="sm"
-                      max={item.product.countInStock}
-                      min={1}
-                      value={qty[index].qty}
-                      onChange={(e) => handleChange(index, e)}
-                    >
-                      <NumberInputField />
-                      <NumberInputStepper>
-                        <NumberIncrementStepper children="+" />
-                        <NumberDecrementStepper children="-" />
-                      </NumberInputStepper>
-                    </NumberInput>
+                    <ProductQtyForm item={item} index={index} width="33%" />
                   </Td>
                   <Td>
                     &#8363;
