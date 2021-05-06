@@ -38,6 +38,19 @@ export const login = createAsyncThunk(
   }
 );
 
+export const setUser = createAsyncThunk(
+  "auth/setUser",
+  async (values, { rejectWithValue }) => {
+    try {
+      const { data } = await api.get("http://localhost:1337/users/me");
+
+      return data;
+    } catch (error) {
+      return rejectWithValue(error.message ? error.message : error);
+    }
+  }
+);
+
 export const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -60,7 +73,6 @@ export const authSlice = createSlice({
     },
     [register.rejected]: (state, action) => {
       state.status = "failed";
-      console.log("HERE", state.error);
       state.error = action.payload[0].messages[0].message;
       toast.error(action.payload[0].messages[0].message);
     },
@@ -79,10 +91,22 @@ export const authSlice = createSlice({
       state.error = action.payload[0].messages[0].message;
       toast.error(action.payload[0].messages[0].message);
     },
+    [setUser.pending]: (state, action) => {
+      state.status = "loading";
+      state.error = null;
+    },
+    [setUser.fulfilled]: (state, action) => {
+      state.status = "succeeded";
+      state.user = action.payload;
+    },
+    [setUser.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.payload[0];
+    },
   },
 });
 
 // Action creators are generated for each case reducer function
-export const { logout, setUser } = authSlice.actions;
+export const { logout } = authSlice.actions;
 
 export default authSlice.reducer;

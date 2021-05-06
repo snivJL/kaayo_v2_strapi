@@ -3,10 +3,10 @@ import Cookie from "js-cookie";
 
 const api = axios.create({
   baseURL: "http://localhost:1337",
-  headers: {
-    "Content-Type": "application/json",
-    Authorization: "Bearer " + Cookie.get("jwt"),
-  },
+  // headers: {
+  //   "Content-Type": "application/json",
+  //   Authorization: "Bearer " + Cookie.get("jwt"),
+  // },
 });
 
 api.interceptors.request.use(

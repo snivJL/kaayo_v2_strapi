@@ -1,5 +1,5 @@
 import axios from "axios";
-import Cookie from "js-cookie"
+import Cookie from "js-cookie";
 
 function getStrapiURL(path = "") {
   console.log("path", path);
@@ -15,10 +15,11 @@ export default class StrapiApi {
   async fetchData(path) {
     const requestUrl = getStrapiURL(path);
     console.log(requestUrl);
-    const response = await fetch(requestUrl),{
-      headers :{
+    const response = await fetch(requestUrl, {
+      headers: {
         Authorization: `Bearer ${Cookie.get("jwt")}`,
-      };}
+      },
+    });
     const data = await response.json();
     return data;
   }

@@ -20,19 +20,31 @@ import Coupon from "./Coupon";
 import { VND } from "../../lib/utils";
 import ProductQtyForm from "./ProductQtyForm";
 
-const OrderSummary = () => {
+const OrderSummary = ({ style }) => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.order.cart);
   const price = useSelector((state) => state.order.price);
   return (
-    <Flex py={4} px={12} direction="column">
+    <Flex
+      py={4}
+      px={12}
+      bg="white"
+      direction="column"
+      style={{ height: "fit-content", position: "sticky" }}
+    >
       <Heading as="h2" fontSize="lg">
         Order Summary
       </Heading>
       <Flex my={4} direction="column">
         {cart && cart.length > 0 ? (
           cart.map((i, index) => (
-            <Flex key={index} align="center" py={4} justify="space-between">
+            <Flex
+              key={index}
+              align="center"
+              h="fit-content"
+              py={4}
+              justify="space-between"
+            >
               <Box w="20%">
                 <Image
                   src="/images/christopher.png"

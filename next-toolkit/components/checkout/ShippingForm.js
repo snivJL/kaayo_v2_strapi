@@ -4,13 +4,15 @@ import { shippingSchema } from "../../lib/yupSchemas";
 import { Button, Text, Flex } from "@chakra-ui/react";
 import InputField from "../InputField";
 import { addShipping } from "../../store/order/orderSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const ShippingForm = ({ handleStep }) => {
+  const order = useSelector((state) => state.order);
+  const { phone, fullname, address, city, ward, district } = order;
   const dispatch = useDispatch();
   return (
     <Formik
-      initialValues={{ ward: "", district: "" }}
+      initialValues={{ phone, fullname, address, city, ward, district }}
       validationSchema={shippingSchema}
       onSubmit={(values) => {
         dispatch(addShipping(values));

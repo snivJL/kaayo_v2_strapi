@@ -95,7 +95,7 @@ export default function Navbar() {
                 <MenuItem>Link 3</MenuItem>
               </MenuList>
             </Menu>
-            {/* <CartPopover /> */}
+            <CartPopover />
           </Flex>
         </Flex>
 

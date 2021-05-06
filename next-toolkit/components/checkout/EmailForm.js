@@ -6,35 +6,35 @@ import InputField from "../InputField";
 import { addEmail } from "../../store/order/orderSlice";
 import { login } from "../../store/auth/authSlice";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { loginSchema } from "../../lib/yupSchemas";
 
-const EmailForm = ({ handleStep, user }) => {
+const EmailForm = ({ handleStep }) => {
   const dispatch = useDispatch();
+  const email = useSelector((state) => state.order.email);
   const [show, setShow] = useState(false);
-  console.log(user);
   return (
     <>
       <Text fontSize="xs">
-        You'll receive receipts and notifications at this email address. Already
-        have an account?
+        You'll receive receipts and notifications at this egit statusil address.
+        Already have an account?
         <Button fontSize="xs" variant="link" onClick={() => setShow(!show)}>
           {show ? "Continue as a guest" : "Sign in"}
         </Button>
       </Text>
       <Collapse in={!show}>
         <Formik
-          initialValues={{ email: "" }}
+          initialValues={{ email }}
           validationSchema={emailSchema}
           onSubmit={(values) => {
             dispatch(addEmail(values));
             handleStep(2);
           }}
         >
-          {({ isSubmitting }) => (
+          {({}) => (
             <Form key="1">
               <InputField name="email" placeholder="email" type="email" />
-              <Button mt={4} isLoading={isSubmitting} type="submit">
+              <Button mt={4} type="submit">
                 Continue
               </Button>
             </Form>

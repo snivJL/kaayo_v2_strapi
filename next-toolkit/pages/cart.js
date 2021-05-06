@@ -141,7 +141,7 @@ const Cart = () => {
               <Text>Grand Total</Text>
               <Text>&#8363;{cartPrice + 40000}</Text>
             </Flex>
-            <Button mt="auto">Proceed To Checkout</Button>
+            <Link href="/checkout">Proceed To Checkout</Link>
           </Flex>
         </SimpleGrid>
       </Wrapper>
