@@ -1,18 +1,17 @@
 import {
   Box,
-  Heading,
   Text,
   Button,
   VStack,
-  HStack,
-  StackDivider,
+  Grid,
+  GridItem,
   Flex,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import Image from "next/image";
 import { getStrapiMedia } from "../../lib/media";
 import Rating from "../../components/product/Rating";
-import { getAverageRating, getNumReviews } from "../../lib/utils";
+import { getAverageRating, formatPrice } from "../../lib/utils";
 import { addToCart } from "../../store/order/orderSlice";
 import { useDispatch } from "react-redux";
 import { faEye, faHeart } from "@fortawesome/free-regular-svg-icons";
@@ -52,49 +51,74 @@ const Product = ({ product }) => {
           color="white"
           pos="absolute"
         >
-          <HStack
-            justify="center"
-            // bgGradient="linear(to-r, bg.100, primary.500)"
-            bg="primary.500"
-            bottom={0}
-            divider={<StackDivider mx={0} borderColor="gray.200" />}
+          <Grid
+            templateColumns="repeat(5,1fr)"
             align="center"
+            justify="center"
+            gap={0}
+            bg="primary.500"
           >
-            <Text
-              w="15%"
+            <GridItem
+              transition="all 0.3s"
+              colSpan={1}
               h="100%"
-              size="md"
-              ml={4}
-              mr={-2}
-              _hover={{ backgroundColor: "black" }}
+              _hover={{ background: "primary.900" }}
             >
-              <FontAwesomeIcon icon={faHeart}></FontAwesomeIcon>
-            </Text>
-            <Button
-              w="70%"
-              mx={-2}
-              style={{ borderRadius: 0 }}
-              _hover={{ background: "bg.100", color: "gray.600" }}
-              onClick={() => {
-                let qty = 1;
-                dispatch(addToCart({ product, qty }));
-                toast({
-                  title: `${product.name} added to cart!`,
-                  // description: "We've created your account for you.",
-                  status: "success",
-                  duration: 9000,
-                  isClosable: true,
-                });
-              }}
+              <FontAwesomeIcon
+                style={{ height: "100%" }}
+                icon={faHeart}
+              ></FontAwesomeIcon>
+            </GridItem>
+
+            {/* <Box h="100%" p={2} my={0}></Box> */}
+            <GridItem
+              colSpan={3}
+              h="100%"
+              transition="all 0.3s"
+              borderRight="1px"
+              borderLeft="1px"
+              borderColor="primary.100"
+              _hover={{ background: "primary.900" }}
             >
-              Buy Now
-            </Button>
-            <Text w="15%" ml={1} mr={0}>
+              <Button
+                w="70%"
+                style={{ borderRadius: 0 }}
+                _hover={{ background: "primary.900" }}
+                _active={{
+                  transform: "scale(0.96)",
+                }}
+                _focus={{
+                  outline: "none",
+                }}
+                onClick={() => {
+                  let qty = 1;
+                  dispatch(addToCart({ product, qty }));
+                  toast({
+                    title: `${product.name} added to cart!`,
+                    // description: "We've created your account for you.",
+                    status: "success",
+                    duration: 9000,
+                    isClosable: true,
+                  });
+                }}
+              >
+                Buy Now
+              </Button>
+            </GridItem>
+            <GridItem
+              transition="all 0.3s"
+              colSpan={1}
+              h="100%"
+              _hover={{ background: "primary.900" }}
+            >
               <Link href={`/products/${product.id}`}>
-                <FontAwesomeIcon icon={faEye}></FontAwesomeIcon>
+                <FontAwesomeIcon
+                  style={{ height: "100%" }}
+                  icon={faEye}
+                ></FontAwesomeIcon>
               </Link>
-            </Text>
-          </HStack>
+            </GridItem>
+          </Grid>
         </Box>
       </Box>
       <VStack letterSpacing={1.3} spacing={1} mt={1} align="center">
@@ -103,12 +127,12 @@ const Product = ({ product }) => {
         </Text>
         <Rating
           value={getAverageRating(product)}
-          numReviews={getNumReviews(product)}
+          numReviews={product.reviews.length}
           size="sm"
         />
         <Text letterSpacing={1}>
           &#8363;
-          {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
+          {formatPrice(product.price)}
         </Text>
         {/* <Button onClick={() => dispatch(addToCart(product))}>
           Add to cart

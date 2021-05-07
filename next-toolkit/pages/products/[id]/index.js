@@ -25,7 +25,7 @@ import Wrapper from "../../../components/Wrapper";
 import Rating from "../../../components/product/Rating";
 import ProductTabs from "../../../components/product/ProductTabs";
 import { addToCart } from "../../../store/order/orderSlice";
-
+import { getAverageRating, formatPrice } from "../../../lib/utils";
 // import api from "../../../api";
 const product = ({ product }) => {
   const [qty, setQty] = useState(1);
@@ -68,10 +68,13 @@ const product = ({ product }) => {
               </Heading>
               <Box>
                 &#8363;
-                {product.price}
+                {formatPrice(product.price)}
               </Box>
               <Box>
-                <Rating />
+                <Rating
+                  value={getAverageRating(product)}
+                  numReviews={product.reviews.length}
+                />
               </Box>
               <Box>
                 <Text>{product.description}</Text>

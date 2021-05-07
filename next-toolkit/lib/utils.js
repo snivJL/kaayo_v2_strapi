@@ -12,13 +12,12 @@ export const getNumReviews = (product) => {
   return product.reviews.length - 1;
 };
 
-function decode(str) {
-  return str.replace(/&#(\d+);/g, function (match, dec) {
-    return String.fromCharCode(dec);
-  });
-}
 export const VND = (size = "sm") => (
   <Text as="span" fontSize={size}>
     ₫
   </Text>
 );
+
+export const formatPrice = (price) => {
+  return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+};

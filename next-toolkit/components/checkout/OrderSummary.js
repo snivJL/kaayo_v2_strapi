@@ -17,7 +17,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 import { clearCart } from "../../store/order/orderSlice";
 import Coupon from "./Coupon";
-import { VND } from "../../lib/utils";
+import { VND, formatPrice } from "../../lib/utils";
 import ProductQtyForm from "./ProductQtyForm";
 
 const OrderSummary = () => {
@@ -62,7 +62,7 @@ const OrderSummary = () => {
               <Stack w="20%" align="start">
                 <Text>
                   {VND()}
-                  {i.product.price}
+                  {formatPrice(i.product.price)}
                 </Text>
                 <ProductQtyForm item={i} index={index} />
                 <Button

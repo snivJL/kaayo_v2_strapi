@@ -19,6 +19,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
+import { formatPrice } from "../../lib/utils";
 
 const CartPopover = () => {
   const cart = useSelector((state) => state.order.cart);
@@ -54,7 +55,9 @@ const CartPopover = () => {
                     <VStack ml="auto" pr={4} align="start">
                       <Text>{i.product.name}</Text>
                       <Text fontSize="sm">Qty: {i.qty}</Text>
-                      <Text fontSize="sm">&#8363;{i.product.price}</Text>
+                      <Text fontSize="sm">
+                        &#8363;{formatPrice(i.product.price)}
+                      </Text>
                     </VStack>
                   </Flex>
                 ))
@@ -65,7 +68,9 @@ const CartPopover = () => {
             <VStack w="100%">
               <Flex w="100%" align="center" justify="space-between">
                 <Text>Total:</Text>
-                <Text>&#8363;{localStorage.getItem("orderPrice")}</Text>
+                <Text>
+                  &#8363;{formatPrice(localStorage.getItem("orderPrice"))}
+                </Text>
               </Flex>
               <Button colorScheme="green" variant="outline">
                 <Link href="/cart">View Cart</Link>
