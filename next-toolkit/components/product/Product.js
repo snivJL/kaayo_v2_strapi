@@ -28,6 +28,7 @@ const Product = ({ product }) => {
       borderRadius="md"
       className="product-card-wrapper"
       overflow="hidden"
+      // bg="white"
     >
       <Box className="product-card" pos="relative">
         <Link href={`/products/${product.id}`}>
@@ -53,7 +54,8 @@ const Product = ({ product }) => {
         >
           <HStack
             justify="center"
-            bgGradient="linear(to-r, green.200, green.500)"
+            // bgGradient="linear(to-r, bg.100, primary.500)"
+            bg="primary.500"
             bottom={0}
             divider={<StackDivider mx={0} borderColor="gray.200" />}
             align="center"
@@ -71,6 +73,8 @@ const Product = ({ product }) => {
             <Button
               w="70%"
               mx={-2}
+              style={{ borderRadius: 0 }}
+              _hover={{ background: "bg.100", color: "gray.600" }}
               onClick={() => {
                 let qty = 1;
                 dispatch(addToCart({ product, qty }));
@@ -93,16 +97,18 @@ const Product = ({ product }) => {
           </HStack>
         </Box>
       </Box>
-      <VStack letterSpacing={1.5} spacing={1} mt={1} align="center">
-        <Text size="md">{product.name}</Text>
+      <VStack letterSpacing={1.3} spacing={1} mt={1} align="center">
+        <Text fontSize="xl" color="gray.700" size="md">
+          {product.name}
+        </Text>
         <Rating
           value={getAverageRating(product)}
           numReviews={getNumReviews(product)}
           size="sm"
         />
-        <Text>
+        <Text letterSpacing={1}>
           &#8363;
-          {product.price}
+          {product.price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
         </Text>
         {/* <Button onClick={() => dispatch(addToCart(product))}>
           Add to cart

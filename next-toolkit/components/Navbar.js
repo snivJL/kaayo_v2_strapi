@@ -44,7 +44,7 @@ export default function Navbar() {
   return (
     <>
       <Box
-        bg={useColorModeValue("green.100", "green.900")}
+        bg="bg.100"
         px={4}
         style={{
           position: "-webkit-sticky" /* Safari */,

@@ -46,7 +46,7 @@ const product = ({ product }) => {
         path={`shop/${product.name}`}
         product={product}
       ></HeroBreadcrumb>
-      <Wrapper lineHeights="tall">
+      <Wrapper lineHeights="tall" bg="gray.50">
         <SimpleGrid columns={{ sm: 1, md: 2 }} gap={14} px={2}>
           <Box>
             <Image
@@ -97,8 +97,17 @@ const product = ({ product }) => {
                 </NumberInput>
                 <Button
                   onClick={() => dispatch(addToCart({ product, qty }))}
-                  colorScheme="teal"
-                  variant="outline"
+                  bg="primary.500"
+                  color="white"
+                  _hover={{
+                    background: "primary.900",
+                  }}
+                  _active={{
+                    transform: "scale(0.96)",
+                  }}
+                  _focus={{
+                    outline: "none",
+                  }}
                 >
                   Buy Now
                 </Button>

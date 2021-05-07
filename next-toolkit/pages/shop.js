@@ -7,6 +7,7 @@ import FilterBar from "../components/product/FilterBar";
 import { useSelector } from "react-redux";
 
 const Shop = ({ productList }) => {
+  console.log(productList);
   const filteredProducts = useSelector(
     (state) => state.product.filteredProducts
   );

@@ -5,12 +5,23 @@ const theme = extendTheme({
     heading: "Open Sans",
     body: "Raleway",
   },
+  colors: {
+    bg: {
+      100: "#f7f7e8",
+    },
+    primary: {
+      200: "#CBDEC1",
+      500: "rgb(157,173,127)",
+      900: "#C39E5C",
+    },
+  },
   styles: {
     global: {
       "html, body": {
         boxSizing: "border-box",
         color: "gray.600",
         lineHeight: "tall",
+        backgroundColor: "bg.100",
       },
       // a: {
       //   color: "teal.500",

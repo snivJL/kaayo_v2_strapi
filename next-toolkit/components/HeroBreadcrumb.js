@@ -12,10 +12,10 @@ import { useRouter } from "next/router";
 const HeroBreadcrumb = ({ path, product = {} }) => {
   const router = useRouter();
   return (
-    <Flex py={8} justify="center" align="center" bg="teal.200">
+    <Flex py={8} justify="center" align="center" bg="primary.200">
       <Breadcrumb>
         <BreadcrumbItem>
-          <BreadcrumbLink href="#">Home</BreadcrumbLink>
+          <BreadcrumbLink href="/">HOME</BreadcrumbLink>
         </BreadcrumbItem>
         {path.split("/").map((item, index) => (
           <BreadcrumbItem key={index}>
@@ -23,7 +23,15 @@ const HeroBreadcrumb = ({ path, product = {} }) => {
               href={`/${item}`}
               isCurrentPage={index === path.split("/").length - 1}
             >
-              <Text casing="capitalize">{item}</Text>
+              {console.log(path.split("/").length, index)}
+              <Text
+                casing="uppercase"
+                color={
+                  index === path.split("/").length - 1 ? "gray.700" : "inherit"
+                }
+              >
+                {item}
+              </Text>
             </BreadcrumbLink>
           </BreadcrumbItem>
         ))}

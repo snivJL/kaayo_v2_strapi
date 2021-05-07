@@ -5,7 +5,7 @@ import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
 import { Text } from "@chakra-ui/react";
 const Rating = ({ value, size = "1x", numReviews }) => {
   return (
-    <Text color={"#FFE234"}>
+    <Text color={"#C39E5C"}>
       {value >= 1 ? (
         <FontAwesomeIcon size={size} icon={faStar} />
       ) : value >= 0.5 ? (
@@ -41,7 +41,9 @@ const Rating = ({ value, size = "1x", numReviews }) => {
       ) : (
         <FontAwesomeIcon size={size} icon={emptyStar} />
       )}
-      {numReviews > 0 ? `(${numReviews})` : "(0)"}
+      <Text pl={1} as="span" fontSize="xs">
+        {numReviews > 0 ? `(${numReviews})` : "(0)"}{" "}
+      </Text>
     </Text>
   );
 };

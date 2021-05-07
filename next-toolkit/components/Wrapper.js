@@ -1,5 +1,5 @@
 import { Box } from "@chakra-ui/react";
-const Wrapper = ({ children, variant = "large", bg = "white", py = 8 }) => {
+const Wrapper = ({ children, variant = "large", bg = "bg.100", py = 8 }) => {
   return (
     <Box
       bg={bg}

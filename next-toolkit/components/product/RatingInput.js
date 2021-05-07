@@ -6,7 +6,7 @@ import { Text } from "@chakra-ui/react";
 
 const RatingInput = ({ handleRating, size = "1x", rating }) => {
   return (
-    <Text color={"#FFE234"}>
+    <Text color={"#C39E5C"}>
       {rating >= 1 ? (
         <FontAwesomeIcon
           onClick={() => handleRating(1)}
