@@ -18,7 +18,7 @@
   right: 0;
 }
 .product-card {
-  z-index: 9999;
+  z-index: 0;
 }
 .product-card:hover .product-card-hidden,
 .product-card:hover .product-card-actions {

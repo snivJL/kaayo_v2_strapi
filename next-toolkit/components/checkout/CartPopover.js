@@ -39,7 +39,12 @@ const CartPopover = () => {
             <Box w="100%">
               {cart && cart.length > 0 ? (
                 cart.map((i) => (
-                  <Flex align="center" justify="start" mb={2}>
+                  <Flex
+                    align="center"
+                    key={i.product.id}
+                    justify="start"
+                    mb={2}
+                  >
                     <Image
                       src="/images/christopher.png"
                       alt="Picture of the product"
@@ -66,7 +71,7 @@ const CartPopover = () => {
                 <Link href="/cart">View Cart</Link>
               </Button>
               <Button colorScheme="green" variant="outline">
-                Checkout
+                <Link href="/checkout">Checkout</Link>
               </Button>
             </VStack>
           </VStack>

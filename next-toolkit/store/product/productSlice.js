@@ -15,6 +15,17 @@ export const fetchProducts = createAsyncThunk(
     return data;
   }
 );
+
+export const filterByCategories = createAsyncThunk(
+  "products/filterByCategories",
+  async (cat) => {
+    const { data } = await api.get(
+      `${process.env.STRAPI_URL}/categories?name_contains=${cat}`
+    );
+    return data;
+  }
+);
+
 export const productSlice = createSlice({
   name: "product",
   initialState,
@@ -34,6 +45,18 @@ export const productSlice = createSlice({
       state.products = action.payload;
     },
     [fetchProducts.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error.message;
+    },
+    [filterByCategories.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [filterByCategories.fulfilled]: (state, action) => {
+      state.status = "succeeded";
+      // Add any fetched posts to the array
+      state.filteredProducts = action.payload[0].products;
+    },
+    [filterByCategories.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
     },

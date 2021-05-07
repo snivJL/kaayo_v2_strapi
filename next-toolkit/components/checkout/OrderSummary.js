@@ -20,7 +20,7 @@ import Coupon from "./Coupon";
 import { VND } from "../../lib/utils";
 import ProductQtyForm from "./ProductQtyForm";
 
-const OrderSummary = ({ style }) => {
+const OrderSummary = () => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.order.cart);
   const price = useSelector((state) => state.order.price);
@@ -28,6 +28,7 @@ const OrderSummary = ({ style }) => {
     <Flex
       py={4}
       px={12}
+      mt={4}
       bg="white"
       direction="column"
       style={{ height: "fit-content", position: "sticky" }}

@@ -19,7 +19,7 @@ import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import { useDispatch } from "react-redux";
 import { logout } from "../store/auth/authSlice";
 import "./Navbar.module.css";
-import CartPopover from "./product/CartPopover";
+import CartPopover from "./checkout/CartPopover";
 
 const Links = ["/", "/shop", "/login"];
 
@@ -43,7 +43,16 @@ export default function Navbar() {
   const dispatch = useDispatch();
   return (
     <>
-      <Box bg={useColorModeValue("gray.100", "gray.900")} px={4}>
+      <Box
+        bg={useColorModeValue("green.100", "green.900")}
+        px={4}
+        style={{
+          position: "-webkit-sticky" /* Safari */,
+          position: "sticky",
+          top: 0,
+          zIndex: 500,
+        }}
+      >
         <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
           <IconButton
             size={"md"}

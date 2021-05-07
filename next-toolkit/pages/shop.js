@@ -1,20 +1,24 @@
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React from "react";
 import Product from "../components/product/Product";
 import { Grid, GridItem } from "@chakra-ui/react";
 import Wrapper from "../components/Wrapper";
 import HeroBreadcrumb from "../components/HeroBreadcrumb";
+import FilterBar from "../components/product/FilterBar";
+import { useSelector } from "react-redux";
 
 const Shop = ({ productList }) => {
-  console.log(productList);
+  const filteredProducts = useSelector(
+    (state) => state.product.filteredProducts
+  );
   return (
     <>
       <HeroBreadcrumb path="shop"></HeroBreadcrumb>{" "}
       <Wrapper variant="large">
+        <FilterBar />
         <Grid templateColumns="repeat(4, 1fr)" gap={6}>
-          {productList.map((p) => (
-            <Product key={p._id} product={p} />
-          ))}
+          {filteredProducts
+            ? filteredProducts.map((p) => <Product key={p._id} product={p} />)
+            : productList.map((p) => <Product key={p._id} product={p} />)}
         </Grid>
       </Wrapper>
     </>

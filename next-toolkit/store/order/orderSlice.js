@@ -116,7 +116,8 @@ export const orderSlice = createSlice({
     },
     [createOrder.fulfilled]: (state, action) => {
       state.status = "succeeded";
-      // Add any fetched posts to the array
+      state.orderId = action.payload.id;
+      localStorage.removeItem("cart");
     },
     [createOrder.rejected]: (state, action) => {
       state.status = "failed";

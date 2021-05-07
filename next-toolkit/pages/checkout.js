@@ -45,8 +45,8 @@ const checkout = () => {
     }
   }, []);
   return (
-    <Box bg="green.100" mt={0} pt={0}>
-      <Wrapper variant="regular">
+    <Box bg="green.100" mt={0} pt={8}>
+      <Wrapper variant="regular" py={0}>
         <SimpleGrid
           bg="green.100"
           mx="auto"
