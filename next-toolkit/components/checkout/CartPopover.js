@@ -28,6 +28,7 @@ const CartPopover = () => {
     <Popover size="lg">
       <PopoverTrigger>
         <IconButton
+          variant="ghost"
           aria-label="View my cart"
           icon={<FontAwesomeIcon icon={faShoppingBag}></FontAwesomeIcon>}
         ></IconButton>
@@ -72,10 +73,10 @@ const CartPopover = () => {
                   &#8363;{formatPrice(localStorage.getItem("orderPrice"))}
                 </Text>
               </Flex>
-              <Button colorScheme="green" variant="outline">
+              <Button variant="main">
                 <Link href="/cart">View Cart</Link>
               </Button>
-              <Button colorScheme="green" variant="outline">
+              <Button variant="main">
                 <Link href="/checkout">Checkout</Link>
               </Button>
             </VStack>

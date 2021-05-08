@@ -43,7 +43,7 @@ const checkout = () => {
       dispatch(setUser());
       setStep(2);
     }
-  }, []);
+  }, [isAuth]);
   return (
     <Box bg="green.100" mt={0} pt={8}>
       <Wrapper variant="regular" py={0}>

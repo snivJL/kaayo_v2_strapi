@@ -41,13 +41,13 @@
     "weight": {
       "type": "integer"
     },
-    "categories": {
-      "collection": "category",
+    "ingredients": {
+      "collection": "ingredient",
       "via": "products",
       "dominant": true
     },
-    "ingredients": {
-      "collection": "ingredient",
+    "categories": {
+      "collection": "category",
       "via": "products",
       "dominant": true
     },

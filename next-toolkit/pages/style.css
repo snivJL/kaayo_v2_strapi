@@ -39,3 +39,9 @@
   transition: all 0.4s ease 0s;
   background-color: #e3e1e1;
 }
+
+.cart-popover,
+.cart-popover::after,
+.cart-popover::before {
+  border-color: none;
+}

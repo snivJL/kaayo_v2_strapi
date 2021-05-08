@@ -60,8 +60,8 @@
       "configurable": false
     },
     "reviews": {
-      "collection": "review",
-      "via": "users_permissions_user"
+      "via": "users_permissions_user",
+      "collection": "review"
     },
     "orders": {
       "via": "users_permissions_user",

@@ -29,9 +29,9 @@
       "required": true
     },
     "users_permissions_user": {
-      "via": "reviews",
       "plugin": "users-permissions",
-      "model": "user"
+      "model": "user",
+      "via": "reviews"
     },
     "images": {
       "collection": "file",

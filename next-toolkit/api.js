@@ -1,23 +1,14 @@
 import axios from "axios";
 import Cookie from "js-cookie";
 
-const api =
-  typeof window !== "undefined"
-    ? axios.create({
-        baseURL: "http://localhost:1337",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + Cookie.get("jwt"),
-        },
-      })
-    : axios.create({
-        baseURL: "http://localhost:1337",
-      });
+const api = axios.create({
+  baseURL: "http://localhost:1337",
+});
 
 api.interceptors.request.use(
   (request) => {
-    api.defaults.headers.common["Authorization"] =
-      "Bearer " + Cookie.get("jwt");
+    // api.defaults.headers.common["Authorization"] =
+    //   "Bearer " + Cookie.get("jwt");
     console.log("Starting Request", request);
     return request;
   },

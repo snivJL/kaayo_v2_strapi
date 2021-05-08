@@ -19,7 +19,7 @@ const ShippingForm = ({ handleStep }) => {
         handleStep(3);
       }}
     >
-      {({ isSubmitting }) => (
+      {() => (
         <Form>
           <Flex>
             <InputField name="fullname" placeholder="Full name" type="text" />
@@ -31,7 +31,7 @@ const ShippingForm = ({ handleStep }) => {
             <InputField name="district" placeholder="District" type="text" />
             <InputField name="ward" placeholder="Ward" type="text" />
           </Flex>
-          <Button mt={4} isLoading={isSubmitting} type="submit">
+          <Button mt={4} type="submit">
             Continue
           </Button>
         </Form>

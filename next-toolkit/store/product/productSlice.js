@@ -5,13 +5,20 @@ const initialState = {
   products: [],
   selectedProduct: {},
   status: "idle",
+  filterBy: "",
+  sortBy: { cat: "createdAt", type: "desc" },
   error: null,
 };
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async () => {
-    const { data } = await api.get(`${process.env.STRAPI_URL}/products`);
+  async (params, { getState }) => {
+    const { filterBy, sortBy } = getState().product;
+    console.log("HERE", getState().product);
+
+    const { data } = await api.get(
+      `${process.env.STRAPI_URL}/products?_sort=${sortBy.cat}:${sortBy.type}&categories.name_contains=${filterBy}`
+    );
     return data;
   }
 );
@@ -19,9 +26,10 @@ export const fetchProducts = createAsyncThunk(
 export const filterByCategories = createAsyncThunk(
   "products/filterByCategories",
   async (cat) => {
-    const { data } = await api.get(
-      `${process.env.STRAPI_URL}/categories?name_contains=${cat}`
-    );
+    const url = cat
+      ? `${process.env.STRAPI_URL}/products?categories.name_contains=${cat}`
+      : `${process.env.STRAPI_URL}/products`;
+    const { data } = await api.get(url);
     return data;
   }
 );
@@ -34,6 +42,12 @@ export const productSlice = createSlice({
       console.log(action);
       state.selectedProduct = action.payload;
     },
+    setFilter(state, action) {
+      state.filterBy = action.payload;
+    },
+    setSort(state, action) {
+      state.sortBy = action.payload;
+    },
   },
   extraReducers: {
     [fetchProducts.pending]: (state, action) => {
@@ -41,6 +55,7 @@ export const productSlice = createSlice({
     },
     [fetchProducts.fulfilled]: (state, action) => {
       state.status = "succeeded";
+      state.filter = action.payload;
       // Add any fetched posts to the array
       state.products = action.payload;
     },
@@ -54,7 +69,7 @@ export const productSlice = createSlice({
     [filterByCategories.fulfilled]: (state, action) => {
       state.status = "succeeded";
       // Add any fetched posts to the array
-      state.filteredProducts = action.payload[0].products;
+      state.filteredProducts = action.payload;
     },
     [filterByCategories.rejected]: (state, action) => {
       state.status = "failed";
@@ -64,7 +79,7 @@ export const productSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { getSelectedProduct } = productSlice.actions;
+export const { getSelectedProduct, setFilter, setSort } = productSlice.actions;
 
 export const selectAllProducts = (state) => state.product.products;
 

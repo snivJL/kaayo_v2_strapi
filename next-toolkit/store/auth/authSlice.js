@@ -29,7 +29,6 @@ export const login = createAsyncThunk(
     try {
       console.log(values, "REDUCER");
       const { data } = await api.post(`/auth/local`, values);
-      Cookie.set("jwt", data.jwt);
       return data;
     } catch (error) {
       console.log("reject with value", error.message);
@@ -42,7 +41,12 @@ export const setUser = createAsyncThunk(
   "auth/setUser",
   async (values, { rejectWithValue }) => {
     try {
-      const { data } = await api.get("http://localhost:1337/users/me");
+      const { data } = await api.get("http://localhost:1337/users/me", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + Cookie.get("jwt"),
+        },
+      });
 
       return data;
     } catch (error) {
@@ -88,8 +92,10 @@ export const authSlice = createSlice({
     },
     [login.rejected]: (state, action) => {
       state.status = "failed";
-      state.error = action.payload[0].messages[0].message;
-      toast.error(action.payload[0].messages[0].message);
+      state.error = action.payload[0].messages[0]
+        ? action.payload[0].messages[0].message
+        : action.payload[0];
+      toast.error(state.error);
     },
     [setUser.pending]: (state, action) => {
       state.status = "loading";

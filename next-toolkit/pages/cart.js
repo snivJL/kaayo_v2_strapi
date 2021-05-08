@@ -14,17 +14,13 @@ import {
   Th,
   Td,
   Input,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
   SimpleGrid,
 } from "@chakra-ui/react";
 import Wrapper from "../components/Wrapper";
 import { useSelector, useDispatch } from "react-redux";
 import { updateCart, clearCart } from "../store/order/orderSlice";
 import ProductQtyForm from "../components/checkout/ProductQtyForm";
+import { SHIPPING_PRICE } from "../lib/utils";
 
 const Cart = () => {
   let cart = useSelector((state) => state.order.cart);
@@ -139,7 +135,7 @@ const Cart = () => {
               justify="space-between"
             >
               <Text>Grand Total</Text>
-              <Text>&#8363;{cartPrice + 40000}</Text>
+              <Text>&#8363;{cartPrice + SHIPPING_PRICE}</Text>
             </Flex>
             <Link href="/checkout">Proceed To Checkout</Link>
           </Flex>

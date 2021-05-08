@@ -1,8 +1,9 @@
 import { Link as NextLink } from "next/link";
+import Image from "next/image";
 import {
   Box,
   Flex,
-  Avatar,
+  Heading,
   IconButton,
   Button,
   Menu,
@@ -19,17 +20,18 @@ import {
   Spacer,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/auth/authSlice";
 import "./Navbar.module.css";
 import CartPopover from "./checkout/CartPopover";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { getTotalCartItems } from "../lib/utils";
 
-const Links = ["/", "/shop", "/login", "/ingredients", "/story"];
+const Links = ["/shop", "/ingredients", "/story"];
 
 const NavLink = ({ children }) => (
-  <Text mr={4} casing="uppercase">
+  <Text casing="uppercase">
     <Link as={NextLink} href={children}>
       {children.replace("/", "")}
     </Link>
@@ -37,13 +39,16 @@ const NavLink = ({ children }) => (
 );
 
 export default function Navbar() {
+  const cart = useSelector((state) => state.order.cart);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   return (
     <>
       <Box
+        shadow="base"
         bg="bg.100"
         px={4}
+        pb={1}
         style={{
           position: "-webkit-sticky" /* Safari */,
           position: "sticky",
@@ -51,7 +56,7 @@ export default function Navbar() {
           zIndex: 500,
         }}
       >
-        <Grid h={16} templateColumns="repeat(5,1fr)">
+        <Grid h={24} templateColumns="repeat(5,1fr)">
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -61,20 +66,32 @@ export default function Navbar() {
           />
           <GridItem colSpan={{ base: 3, md: 1 }}>
             <Flex align="center" justify="center" h="100%">
-              Logo
+              <Image
+                src="/images/logo.png"
+                alt="logo"
+                width={130}
+                height={100}
+              />
+              <Heading as="h1" fontSize="xl">
+                KA.A.YO
+              </Heading>
             </Flex>
           </GridItem>
           <GridItem colSpan={3}>
             <Flex
               h="100%"
-              justify="center"
+              justify="space-around"
               align="center"
+              px={28}
               display={{ base: "none", md: "flex" }}
             >
+              <Text casing="uppercase">
+                <Link as={NextLink} href="/">
+                  Home
+                </Link>
+              </Text>
               {Links.map((link) => (
-                <NavLink mr={2} key={link}>
-                  {link}
-                </NavLink>
+                <NavLink key={link}>{link}</NavLink>
               ))}
             </Flex>
           </GridItem>
@@ -106,7 +123,24 @@ export default function Navbar() {
                   <MenuItem>Link 3</MenuItem>
                 </MenuList>
               </Menu>
-              <CartPopover />
+              <Box position="relative">
+                <CartPopover />
+                <Text
+                  fontSize="xs"
+                  w={5}
+                  h={5}
+                  align="center"
+                  border="1px"
+                  borderRadius="9999px"
+                  bg="primary.500"
+                  color="white"
+                  position="absolute"
+                  top={-1}
+                  right={-1}
+                >
+                  {getTotalCartItems(cart)}
+                </Text>
+              </Box>
             </Flex>
           </GridItem>
         </Grid>
@@ -114,6 +148,11 @@ export default function Navbar() {
         {isOpen ? (
           <Box pb={4}>
             <Stack as={"nav"} h="100%" spacing={4}>
+              <Text mr={4} casing="uppercase">
+                <Link as={NextLink} href="/">
+                  Home
+                </Link>
+              </Text>
               {Links.map((link) => (
                 <NavLink key={link}>{link}</NavLink>
               ))}

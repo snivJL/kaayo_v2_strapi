@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState } from "react";
 import {
-  Flex,
   Menu,
   MenuButton,
   MenuList,
@@ -9,30 +8,81 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import { useDispatch } from "react-redux";
-import { filterByCategories } from "../../store/product/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  filterByCategories,
+  setFilter,
+} from "../../store/product/productSlice";
 
 const FilterBar = () => {
+  const [filterTitle, setFilterTitle] = useState("All");
+  const status = useSelector((state) => state.product.status);
   const dispatch = useDispatch();
   return (
-    <Flex pb={8}>
-      <Menu>
-        <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-          Categories
-        </MenuButton>
-        <MenuList>
-          <MenuItem onClick={() => dispatch(filterByCategories("charcoal"))}>
-            Charcoal Soap
-          </MenuItem>
-          <MenuItem>Spice Soap</MenuItem>
-          <MenuDivider />
-          <MenuItem>Body Butter</MenuItem>
-          <MenuItem>Lip Balm</MenuItem>
-          <MenuItem>Shampoo Bar</MenuItem>
-          <MenuItem>Attend a Workshop</MenuItem>
-        </MenuList>
-      </Menu>
-    </Flex>
+    <Menu>
+      <MenuButton
+        isLoading={status === "loading"}
+        as={Button}
+        rightIcon={<ChevronDownIcon />}
+      >
+        {filterTitle}
+      </MenuButton>
+      <MenuList>
+        <MenuItem
+          onClick={(e) => {
+            setFilterTitle("All");
+            dispatch(setFilter(""));
+            dispatch(filterByCategories());
+          }}
+        >
+          All
+        </MenuItem>
+        <MenuItem
+          onClick={(e) => {
+            setFilterTitle("Charcoal Soap");
+            dispatch(setFilter("charcoal"));
+            // dispatch(filterByCategories("charcoal"))
+          }}
+        >
+          Charcoal Soap
+        </MenuItem>
+        <MenuItem
+          onClick={(e) => {
+            console.log(e.target);
+            setFilterTitle("Spice Soap");
+            dispatch(filterByCategories("spice"));
+          }}
+        >
+          Spice Soap
+        </MenuItem>
+        <MenuDivider />
+        <MenuItem
+          onClick={(e) => {
+            setFilterTitle("Body Butter");
+            filterByCategories("body");
+          }}
+        >
+          Body Butter
+        </MenuItem>
+        <MenuItem
+          onClick={(e) => {
+            setFilterTitle("Lip Balm");
+            dispatch(filterByCategories("lip"));
+          }}
+        >
+          Lip Balm
+        </MenuItem>
+        <MenuItem
+          onClick={(e) => {
+            setFilterTitle("Shampoo Bar");
+            dispatch(filterByCategories("shampoo"));
+          }}
+        >
+          Shampoo Bar
+        </MenuItem>
+        <MenuItem>Attend a Workshop</MenuItem>
+      </MenuList>
+    </Menu>
   );
 };
 

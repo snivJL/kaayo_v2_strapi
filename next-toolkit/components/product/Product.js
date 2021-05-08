@@ -27,6 +27,7 @@ const Product = ({ product }) => {
       borderRadius="md"
       maxW="250px"
       mx="auto"
+      pb={2}
       // bg="white"
     >
       <Box className="product-card" pos="relative">
@@ -83,13 +84,7 @@ const Product = ({ product }) => {
               <Button
                 w="70%"
                 style={{ borderRadius: 0 }}
-                _hover={{ background: "primary.900" }}
-                _active={{
-                  transform: "scale(0.96)",
-                }}
-                _focus={{
-                  outline: "none",
-                }}
+                variant="main"
                 onClick={() => {
                   let qty = 1;
                   dispatch(addToCart({ product, qty }));

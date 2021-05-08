@@ -5,21 +5,4 @@
  * to customize this controller
  */
 
-module.exports = {
-  find: (ctx) => {
-    return strapi.query("category").find(ctx.query, [
-      {
-        path: "products",
-        populate: {
-          path: "reviews",
-        },
-        populate: {
-          path: "ingredients",
-        },
-        populate: {
-          path: "categories",
-        },
-      },
-    ]);
-  },
-};
+module.exports = {};

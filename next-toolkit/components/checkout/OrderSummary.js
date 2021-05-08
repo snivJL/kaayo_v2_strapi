@@ -1,23 +1,10 @@
 import React from "react";
-import {
-  Box,
-  Heading,
-  Text,
-  Flex,
-  Button,
-  Stack,
-  NumberInput,
-  NumberInputField,
-  NumberInputStepper,
-  NumberIncrementStepper,
-  NumberDecrementStepper,
-  SimpleGrid,
-} from "@chakra-ui/react";
+import { Box, Heading, Text, Flex, Button, Stack } from "@chakra-ui/react";
 import { useSelector, useDispatch } from "react-redux";
 import Image from "next/image";
 import { clearCart } from "../../store/order/orderSlice";
 import Coupon from "./Coupon";
-import { VND, formatPrice } from "../../lib/utils";
+import { VND, formatPrice, SHIPPING_PRICE } from "../../lib/utils";
 import ProductQtyForm from "./ProductQtyForm";
 
 const OrderSummary = () => {
@@ -85,18 +72,21 @@ const OrderSummary = () => {
           <Text>Subtotal</Text>
           <Text>
             {VND()}
-            {price}
+            {formatPrice(price)}
           </Text>
         </Flex>
         <Flex color="gray.500" justify="space-between">
           <Text>Shipping</Text>
-          <Text>{VND()}40000</Text>
+          <Text>
+            {VND()}
+            {formatPrice(SHIPPING_PRICE)}
+          </Text>
         </Flex>
         <Flex my={2} justify="space-between">
           <Text>Total</Text>
           <Text>
             {VND()}
-            {price + 40000}
+            {formatPrice(price + SHIPPING_PRICE)}
           </Text>
         </Flex>
       </Flex>

@@ -7,6 +7,11 @@ export const getAverageRating = (product) => {
     (product.reviews.length - 1)
   );
 };
+export const getTotalCartItems = (cart) => {
+  return cart.reduce((acc, r) => {
+    return (acc += Number(r.qty));
+  }, 0);
+};
 
 export const getNumReviews = (product) => {
   return product.reviews.length - 1;
@@ -21,3 +26,5 @@ export const VND = (size = "sm") => (
 export const formatPrice = (price) => {
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
+
+export const SHIPPING_PRICE = 40000;
