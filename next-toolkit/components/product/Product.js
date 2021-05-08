@@ -25,8 +25,8 @@ const Product = ({ product }) => {
     <Box
       borderWidth="1px"
       borderRadius="md"
-      className="product-card-wrapper"
-      overflow="hidden"
+      maxW="250px"
+      mx="auto"
       // bg="white"
     >
       <Box className="product-card" pos="relative">

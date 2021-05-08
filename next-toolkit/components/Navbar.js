@@ -1,9 +1,8 @@
-import Link from "next/link";
+import { Link as NextLink } from "next/link";
 import {
   Box,
   Flex,
   Avatar,
-  HStack,
   IconButton,
   Button,
   Menu,
@@ -12,30 +11,29 @@ import {
   MenuItem,
   MenuDivider,
   useDisclosure,
-  useColorModeValue,
+  Text,
   Stack,
+  Grid,
+  GridItem,
+  Link,
+  Spacer,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon, AddIcon } from "@chakra-ui/icons";
 import { useDispatch } from "react-redux";
 import { logout } from "../store/auth/authSlice";
 import "./Navbar.module.css";
 import CartPopover from "./checkout/CartPopover";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 
-const Links = ["/", "/shop", "/login"];
+const Links = ["/", "/shop", "/login", "/ingredients", "/story"];
 
 const NavLink = ({ children }) => (
-  <Link
-    px={2}
-    py={1}
-    rounded={"md"}
-    _hover={{
-      textDecoration: "none",
-      bg: useColorModeValue("gray.200", "gray.700"),
-    }}
-    href={children}
-  >
-    {children.replace("/", "")}
-  </Link>
+  <Text mr={4} casing="uppercase">
+    <Link as={NextLink} href={children}>
+      {children.replace("/", "")}
+    </Link>
+  </Text>
 );
 
 export default function Navbar() {
@@ -53,7 +51,7 @@ export default function Navbar() {
           zIndex: 500,
         }}
       >
-        <Flex h={16} alignItems={"center"} justifyContent={"space-between"}>
+        <Grid h={16} templateColumns="repeat(5,1fr)">
           <IconButton
             size={"md"}
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
@@ -61,56 +59,61 @@ export default function Navbar() {
             display={{ md: !isOpen ? "none" : "inherit" }}
             onClick={isOpen ? onClose : onOpen}
           />
-          <HStack spacing={8} alignItems={"center"}>
-            <Box>Logo</Box>
-            <HStack
-              as={"nav"}
-              spacing={4}
+          <GridItem colSpan={{ base: 3, md: 1 }}>
+            <Flex align="center" justify="center" h="100%">
+              Logo
+            </Flex>
+          </GridItem>
+          <GridItem colSpan={3}>
+            <Flex
+              h="100%"
+              justify="center"
+              align="center"
               display={{ base: "none", md: "flex" }}
             >
               {Links.map((link) => (
-                <NavLink key={link}>{link}</NavLink>
+                <NavLink mr={2} key={link}>
+                  {link}
+                </NavLink>
               ))}
-            </HStack>
-          </HStack>
-          <Flex alignItems={"center"}>
-            <Button
-              variant={"solid"}
-              colorScheme={"teal"}
-              size={"sm"}
-              mr={4}
-              leftIcon={<AddIcon />}
-            >
-              Action
-            </Button>
-            <Menu>
-              <MenuButton
-                as={Button}
-                rounded={"full"}
-                variant={"link"}
-                cursor={"pointer"}
+            </Flex>
+          </GridItem>
+          <GridItem colSpan={1} rowStart={1} colStart={5}>
+            <Flex h="100%" align="center" justify="center">
+              {/* <Button
+                variant={"solid"}
+                colorScheme={"teal"}
+                size={"sm"}
+                mr={4}
+                leftIcon={<AddIcon />}
               >
-                <Avatar
-                  size={"sm"}
-                  src={
-                    "https://images.unsplash.com/photo-1493666438817-866a91353ca9?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9"
-                  }
-                />
-              </MenuButton>
-              <MenuList>
-                <MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
-                <MenuItem>Link 2</MenuItem>
-                <MenuDivider />
-                <MenuItem>Link 3</MenuItem>
-              </MenuList>
-            </Menu>
-            <CartPopover />
-          </Flex>
-        </Flex>
+                Action
+              </Button> */}
+              <Spacer />
+              <Menu>
+                <MenuButton
+                  as={Button}
+                  rounded={"full"}
+                  variant={"link"}
+                  cursor={"pointer"}
+                >
+                  <FontAwesomeIcon icon={faUser} />
+                </MenuButton>
+                <MenuList>
+                  <MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
+                  <MenuItem>Link 2</MenuItem>
+                  <MenuDivider />
+                  <MenuItem>Link 3</MenuItem>
+                </MenuList>
+              </Menu>
+              <CartPopover />
+            </Flex>
+          </GridItem>
+        </Grid>
 
         {isOpen ? (
           <Box pb={4}>
-            <Stack as={"nav"} spacing={4}>
+            <Stack as={"nav"} h="100%" spacing={4}>
               {Links.map((link) => (
                 <NavLink key={link}>{link}</NavLink>
               ))}

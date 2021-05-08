@@ -27,6 +27,7 @@ import ProductTabs from "../../../components/product/ProductTabs";
 import { addToCart } from "../../../store/order/orderSlice";
 import { getAverageRating, formatPrice } from "../../../lib/utils";
 // import api from "../../../api";
+
 const product = ({ product }) => {
   const [qty, setQty] = useState(1);
   const router = useRouter();
@@ -60,6 +61,7 @@ const product = ({ product }) => {
           <VStack
             divider={<StackDivider borderColor="gray.200" />}
             spacing={4}
+            w="100%"
             align="stretch"
           >
             <Stack spacing={4}>

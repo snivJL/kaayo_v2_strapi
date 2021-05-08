@@ -16,7 +16,15 @@ const Shop = ({ productList }) => {
       <HeroBreadcrumb path="shop"></HeroBreadcrumb>{" "}
       <Wrapper variant="large">
         <FilterBar />
-        <Grid templateColumns="repeat(4, 1fr)" gap={6}>
+        <Grid
+          mx="auto"
+          templateColumns={{
+            base: "repeat(1, 1fr)",
+            md: "repeat(2, 1fr)",
+            lg: "repeat(4, 1fr)",
+          }}
+          gap={6}
+        >
           {filteredProducts
             ? filteredProducts.map((p) => <Product key={p._id} product={p} />)
             : productList.map((p) => <Product key={p._id} product={p} />)}
