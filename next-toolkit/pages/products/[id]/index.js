@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getSelectedProduct } from "../../../store/product/productSlice";
 import Image from "next/image";
 import HeroBreadcrumb from "../../../components/HeroBreadcrumb";
@@ -13,7 +13,7 @@ import {
   Button,
   StackDivider,
   Flex,
-  FormControl,
+  useToast,
   Heading,
   NumberInput,
   NumberInputField,
@@ -25,10 +25,20 @@ import Wrapper from "../../../components/Wrapper";
 import Rating from "../../../components/product/Rating";
 import ProductTabs from "../../../components/product/ProductTabs";
 import { addToCart } from "../../../store/order/orderSlice";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "../../../store/wishlist/wishlistSlice";
 import { getAverageRating, formatPrice } from "../../../lib/utils";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 // import api from "../../../api";
 
 const product = ({ product }) => {
+  const toast = useToast();
+  const wishlist = useSelector((state) => state.wishlist.wishlist);
+  const inWishlist = wishlist.find((i) => i.id === product.id);
   const [qty, setQty] = useState(1);
   const router = useRouter();
   const dispatch = useDispatch();
@@ -40,7 +50,7 @@ const product = ({ product }) => {
 
   useEffect(() => {
     dispatch(getSelectedProduct(id));
-  }, [dispatch]);
+  }, [dispatch, wishlist]);
   return (
     <>
       <HeroBreadcrumb
@@ -84,6 +94,13 @@ const product = ({ product }) => {
             </Stack>
             <Stack spacing={4}>
               <Flex align="center">
+                <Text mr={4}>
+                  {product.countInStock > 0
+                    ? product.countInStock > 5
+                      ? "In Stock"
+                      : `Only ${product.countInStock} left!`
+                    : "Out Of Stock"}
+                </Text>
                 {/* <FormLabel>Amount</FormLabel> */}
                 <NumberInput
                   w="15%"
@@ -102,6 +119,7 @@ const product = ({ product }) => {
                 </NumberInput>
                 <Button
                   onClick={() => dispatch(addToCart({ product, qty }))}
+                  mr={4}
                   bg="primary.500"
                   color="white"
                   _hover={{
@@ -115,6 +133,32 @@ const product = ({ product }) => {
                   }}
                 >
                   Buy Now
+                </Button>
+                <Button
+                  variant="ghost"
+                  onClick={() => {
+                    inWishlist
+                      ? dispatch(removeFromWishlist(product))
+                      : dispatch(addToWishlist(product));
+                    inWishlist
+                      ? toast({
+                          title: `${product.name} removed from your wishlist!`,
+                          status: "success",
+                        })
+                      : toast({
+                          title: `${product.name} added to your wishlist!`,
+                          status: "success",
+                        });
+                  }}
+                >
+                  <FontAwesomeIcon
+                    color="red"
+                    size="lg"
+                    icon={faHeart}
+                    style={
+                      inWishlist ? { opacity: "100%" } : { opacity: "30%" }
+                    }
+                  ></FontAwesomeIcon>
                 </Button>
               </Flex>
 

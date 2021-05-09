@@ -10,11 +10,7 @@ const SortBar = () => {
   const dispatch = useDispatch();
   return (
     <Menu>
-      <MenuButton
-        isLoading={status === "loading"}
-        as={Button}
-        rightIcon={<ChevronDownIcon />}
-      >
+      <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
         {sortTitle}
       </MenuButton>
       <MenuList>
@@ -34,49 +30,30 @@ const SortBar = () => {
         >
           Price Desc
         </MenuItem>
-        {/* <MenuItem
-      onClick={(e) => {
-        setFilter("Charcoal Soap");
-        dispatch(filterByCategories("charcoal"));
-      }}
-    >
-      Charcoal Soap
-    </MenuItem>
-    <MenuItem
-      onClick={(e) => {
-        console.log(e.target);
-        setFilter("Spice Soap");
-        dispatch(filterByCategories("spice"));
-      }}
-    >
-      Spice Soap
-    </MenuItem>
-    <MenuDivider />
-    <MenuItem
-      onClick={(e) => {
-        setFilter("Body Butter");
-        filterByCategories("body");
-      }}
-    >
-      Body Butter
-    </MenuItem>
-    <MenuItem
-      onClick={(e) => {
-        setFilter("Lip Balm");
-        dispatch(filterByCategories("lip"));
-      }}
-    >
-      Lip Balm
-    </MenuItem>
-    <MenuItem
-      onClick={(e) => {
-        setFilter("Shampoo Bar");
-        dispatch(filterByCategories("shampoo"));
-      }}
-    >
-      Shampoo Bar
-    </MenuItem>
-    <MenuItem>Attend a Workshop</MenuItem> */}
+        <MenuItem
+          onClick={(e) => {
+            setSortTitle("Latest");
+            dispatch(setSort({ cat: "createdAt", type: "desc" }));
+          }}
+        >
+          Latest
+        </MenuItem>
+        <MenuItem
+          onClick={(e) => {
+            setSortTitle("Oldest");
+            dispatch(setSort({ cat: "createdAt", type: "asc" }));
+          }}
+        >
+          Oldest
+        </MenuItem>
+        <MenuItem
+          onClick={(e) => {
+            setSortTitle("Ratings");
+            dispatch(setSort({ cat: "price", type: "desc" }));
+          }}
+        >
+          Ratings
+        </MenuItem>
       </MenuList>
     </Menu>
   );

@@ -3,8 +3,7 @@ export const getAverageRating = (product) => {
   return (
     product.reviews.reduce((acc, r) => {
       return (acc += r.rating);
-    }, 0) /
-    (product.reviews.length - 1)
+    }, 0) / product.reviews.length
   );
 };
 export const getTotalCartItems = (cart) => {

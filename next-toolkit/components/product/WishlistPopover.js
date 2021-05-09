@@ -17,20 +17,26 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faShoppingBag } from "@fortawesome/free-solid-svg-icons";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { formatPrice } from "../../lib/utils";
 
-const CartPopover = () => {
-  const cart = useSelector((state) => state.order.cart);
+const WishlistPopover = () => {
+  const wishlist = useSelector((state) => state.wishlist.wishlist);
 
   return (
     <Popover size="lg">
       <PopoverTrigger>
         <IconButton
           variant="ghost"
-          aria-label="View my cart"
-          icon={<FontAwesomeIcon icon={faShoppingBag}></FontAwesomeIcon>}
+          aria-label="View my wishlist"
+          icon={
+            <FontAwesomeIcon
+              // color="red"
+              icon={faHeart}
+              style={{ opacity: "100%" }}
+            ></FontAwesomeIcon>
+          }
         ></IconButton>
       </PopoverTrigger>
       <PopoverContent p={4} mr={4}>
@@ -39,14 +45,9 @@ const CartPopover = () => {
         <PopoverBody>
           <VStack divider={<StackDivider mx={0} borderColor="gray.200" />}>
             <Box w="100%">
-              {cart && cart.length > 0 ? (
-                cart.map((i) => (
-                  <Flex
-                    align="center"
-                    key={i.product.id}
-                    justify="start"
-                    mb={2}
-                  >
+              {wishlist && wishlist.length > 0 ? (
+                wishlist.map((product) => (
+                  <Flex align="center" key={product.id} justify="start" mb={2}>
                     <Image
                       src="/images/christopher.png"
                       alt="Picture of the product"
@@ -54,25 +55,18 @@ const CartPopover = () => {
                       height={120}
                     />
                     <VStack ml="auto" pr={4} align="start">
-                      <Text>{i.product.name}</Text>
-                      <Text fontSize="sm">Qty: {i.qty}</Text>
+                      <Text>{product.name}</Text>
                       <Text fontSize="sm">
-                        &#8363;{formatPrice(i.product.price)}
+                        &#8363;{formatPrice(product.price)}
                       </Text>
                     </VStack>
                   </Flex>
                 ))
               ) : (
-                <Text>No items in cart</Text>
+                <Text>No items in wishlist</Text>
               )}
             </Box>
             <VStack w="100%">
-              <Flex w="100%" align="center" justify="space-between">
-                <Text>Total:</Text>
-                <Text>
-                  &#8363;{formatPrice(localStorage.getItem("orderPrice"))}
-                </Text>
-              </Flex>
               <Flex align="center" w="100%" justify="space-between">
                 <Button variant="main">
                   <Link href="/cart">View Cart</Link>
@@ -89,4 +83,4 @@ const CartPopover = () => {
   );
 };
 
-export default CartPopover;
+export default WishlistPopover;

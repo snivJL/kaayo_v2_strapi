@@ -24,8 +24,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { logout } from "../store/auth/authSlice";
 import "./Navbar.module.css";
 import CartPopover from "./checkout/CartPopover";
+import WishlistPopover from "./product/WishlistPopover";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { getTotalCartItems } from "../lib/utils";
 
 const Links = ["/shop", "/ingredients", "/story"];
@@ -40,6 +41,7 @@ const NavLink = ({ children }) => (
 
 export default function Navbar() {
   const cart = useSelector((state) => state.order.cart);
+  const wishlist = useSelector((state) => state.wishlist.wishlist);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
   return (
@@ -123,7 +125,7 @@ export default function Navbar() {
                   <MenuItem>Link 3</MenuItem>
                 </MenuList>
               </Menu>
-              <Box position="relative">
+              <Box position="relative" mr={2}>
                 <CartPopover />
                 <Text
                   fontSize="xs"
@@ -139,6 +141,24 @@ export default function Navbar() {
                   right={-1}
                 >
                   {getTotalCartItems(cart)}
+                </Text>
+              </Box>
+              <Box position="relative" mr={2}>
+                <WishlistPopover />
+                <Text
+                  fontSize="xs"
+                  w={5}
+                  h={5}
+                  align="center"
+                  border="1px"
+                  borderRadius="9999px"
+                  bg="red.500"
+                  color="white"
+                  position="absolute"
+                  top={-1}
+                  right={-1}
+                >
+                  {wishlist.length}
                 </Text>
               </Box>
             </Flex>

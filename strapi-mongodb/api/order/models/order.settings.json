@@ -12,12 +12,10 @@
   },
   "attributes": {
     "users_permissions_user": {
+      "columnName": "user",
       "plugin": "users-permissions",
       "model": "user",
       "via": "orders"
-    },
-    "products": {
-      "collection": "product"
     },
     "totalPrice": {
       "type": "decimal",
@@ -98,6 +96,9 @@
     "phone": {
       "type": "string",
       "required": true
+    },
+    "cart": {
+      "type": "json"
     }
   }
 }

@@ -9,10 +9,7 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  filterByCategories,
-  setFilter,
-} from "../../store/product/productSlice";
+import { setFilter } from "../../store/product/productSlice";
 
 const FilterBar = () => {
   const [filterTitle, setFilterTitle] = useState("All");
@@ -20,11 +17,7 @@ const FilterBar = () => {
   const dispatch = useDispatch();
   return (
     <Menu>
-      <MenuButton
-        isLoading={status === "loading"}
-        as={Button}
-        rightIcon={<ChevronDownIcon />}
-      >
+      <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
         {filterTitle}
       </MenuButton>
       <MenuList>
@@ -32,7 +25,6 @@ const FilterBar = () => {
           onClick={(e) => {
             setFilterTitle("All");
             dispatch(setFilter(""));
-            dispatch(filterByCategories());
           }}
         >
           All
@@ -41,16 +33,14 @@ const FilterBar = () => {
           onClick={(e) => {
             setFilterTitle("Charcoal Soap");
             dispatch(setFilter("charcoal"));
-            // dispatch(filterByCategories("charcoal"))
           }}
         >
           Charcoal Soap
         </MenuItem>
         <MenuItem
           onClick={(e) => {
-            console.log(e.target);
             setFilterTitle("Spice Soap");
-            dispatch(filterByCategories("spice"));
+            dispatch(setFilter("spice"));
           }}
         >
           Spice Soap
@@ -59,7 +49,7 @@ const FilterBar = () => {
         <MenuItem
           onClick={(e) => {
             setFilterTitle("Body Butter");
-            filterByCategories("body");
+            dispatch(setFilter("body"));
           }}
         >
           Body Butter
@@ -67,7 +57,7 @@ const FilterBar = () => {
         <MenuItem
           onClick={(e) => {
             setFilterTitle("Lip Balm");
-            dispatch(filterByCategories("lip"));
+            dispatch(setFilter("lip"));
           }}
         >
           Lip Balm
@@ -75,7 +65,7 @@ const FilterBar = () => {
         <MenuItem
           onClick={(e) => {
             setFilterTitle("Shampoo Bar");
-            dispatch(filterByCategories("shampoo"));
+            dispatch(setFilter("shampoo"));
           }}
         >
           Shampoo Bar

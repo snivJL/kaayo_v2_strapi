@@ -3,7 +3,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
 import { Text } from "@chakra-ui/react";
-const Rating = ({ value, size = "1x", numReviews }) => {
+import { getAverageRating } from "../../lib/utils";
+const Rating = ({ product, size = "1x", numReviews }) => {
+  const value = getAverageRating(product);
   return (
     <Text color={"#C39E5C"}>
       {value >= 1 ? (

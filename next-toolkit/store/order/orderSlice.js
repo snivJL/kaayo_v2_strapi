@@ -3,7 +3,7 @@ import api from "../../api";
 import Cookie from "js-cookie";
 
 const initialState = {
-  status: "pending",
+  orderStatus: "pending",
   cart:
     typeof window !== "undefined"
       ? window.localStorage.getItem("cart")
@@ -24,10 +24,16 @@ const initialState = {
   paymentMethod: "",
 };
 
-export const createOrder = createAsyncThunk("orders/create", async (order) => {
-  const { data } = await api.post(`${process.env.STRAPI_URL}/orders`, order);
-  return data;
-});
+export const createOrder = createAsyncThunk(
+  "orders/create",
+  async (order, { getState }) => {
+    const { data } = await api.post(`${process.env.STRAPI_URL}/orders`, {
+      ...order,
+      status: getState().order.orderStatus,
+    });
+    return data;
+  }
+);
 export const orderSlice = createSlice({
   name: "order",
   initialState,
@@ -118,6 +124,7 @@ export const orderSlice = createSlice({
       state.status = "succeeded";
       state.orderId = action.payload.id;
       localStorage.removeItem("cart");
+      localStorage.removeItem("orderPrice");
     },
     [createOrder.rejected]: (state, action) => {
       state.status = "failed";
