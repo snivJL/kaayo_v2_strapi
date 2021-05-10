@@ -19,7 +19,15 @@ module.exports = {
       }, 0);
       ctx.request.body.totalPrice = totalPrice;
       ctx.request.body.cart = cart.reduce(
-        (acc, p) => [...acc, { name: p.product.name, qty: p.qty }],
+        (acc, p) => [
+          ...acc,
+          {
+            name: p.product.name,
+            qty: p.qty,
+            price: p.product.price,
+            image: p.product.images[0].name,
+          },
+        ],
         []
       );
 

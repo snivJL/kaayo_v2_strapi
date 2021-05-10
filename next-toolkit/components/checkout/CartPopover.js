@@ -40,48 +40,50 @@ const CartPopover = () => {
           <VStack divider={<StackDivider mx={0} borderColor="gray.200" />}>
             <Box w="100%">
               {cart && cart.length > 0 ? (
-                cart.map((i) => (
-                  <Flex
-                    align="center"
-                    key={i.product.id}
-                    justify="start"
-                    mb={2}
-                  >
-                    <Image
-                      src="/images/christopher.png"
-                      alt="Picture of the product"
-                      width={100}
-                      height={120}
-                    />
-                    <VStack ml="auto" pr={4} align="start">
-                      <Text>{i.product.name}</Text>
-                      <Text fontSize="sm">Qty: {i.qty}</Text>
-                      <Text fontSize="sm">
-                        &#8363;{formatPrice(i.product.price)}
+                <>
+                  {cart.map((i) => (
+                    <Flex
+                      align="center"
+                      key={i.product.id}
+                      justify="start"
+                      mb={2}
+                    >
+                      <Image
+                        src="/images/christopher.png"
+                        alt="Picture of the product"
+                        width={100}
+                        height={120}
+                      />
+                      <VStack ml="auto" pr={4} align="start">
+                        <Text>{i.product.name}</Text>
+                        <Text fontSize="sm">Qty: {i.qty}</Text>
+                        <Text fontSize="sm">
+                          &#8363;{formatPrice(i.product.price)}
+                        </Text>
+                      </VStack>
+                    </Flex>
+                  ))}
+                  <VStack w="100%">
+                    <Flex w="100%" align="center" justify="space-between">
+                      <Text>Total:</Text>
+                      <Text>
+                        &#8363;{formatPrice(localStorage.getItem("orderPrice"))}
                       </Text>
-                    </VStack>
-                  </Flex>
-                ))
+                    </Flex>
+                    <Flex align="center" w="100%" justify="space-between">
+                      <Button variant="main">
+                        <Link href="/cart">View Cart</Link>
+                      </Button>
+                      <Button variant="main">
+                        <Link href="/checkout">Checkout</Link>
+                      </Button>
+                    </Flex>
+                  </VStack>
+                </>
               ) : (
                 <Text>No items in cart</Text>
               )}
             </Box>
-            <VStack w="100%">
-              <Flex w="100%" align="center" justify="space-between">
-                <Text>Total:</Text>
-                <Text>
-                  &#8363;{formatPrice(localStorage.getItem("orderPrice"))}
-                </Text>
-              </Flex>
-              <Flex align="center" w="100%" justify="space-between">
-                <Button variant="main">
-                  <Link href="/cart">View Cart</Link>
-                </Button>
-                <Button variant="main">
-                  <Link href="/checkout">Checkout</Link>
-                </Button>
-              </Flex>
-            </VStack>
           </VStack>
         </PopoverBody>
       </PopoverContent>

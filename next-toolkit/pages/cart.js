@@ -28,25 +28,19 @@ const Cart = () => {
   let cart = useSelector((state) => state.order.cart);
   let cartPrice = useSelector((state) => state.order.price);
   const router = useRouter();
-
   const dispatch = useDispatch();
   const [qty, setQty] = useState(cart);
-  const handleChange = (index, value) => {
-    const newArray = [...qty];
-    newArray[index] = { ...newArray[index], qty: value };
-    setQty(newArray);
-    dispatch(updateCart(newArray));
-  };
+
   return (
     <>
       <HeroBreadcrumb path="cart" />
       <Wrapper>
         {cart.length > 0 ? (
           <>
-            <Heading as="h1" fontSize="xl">
+            <Heading py={6} pl={6} bg="white" as="h1" fontSize="xl">
               Your cart items
-            </Heading>
-            <Table mt={6} size="md">
+            </Heading>{" "}
+            <Table bg="white" colorScheme="green" size="md">
               <Thead>
                 <Tr>
                   <Th>Image</Th>
@@ -81,7 +75,14 @@ const Cart = () => {
                         &#8363;
                         {item.product.price * item.qty}
                       </Td>
-                      <Td>Action</Td>
+                      <Td px={0}>
+                        <Button
+                          onClick={() => dispatch(clearCart(item.product.id))}
+                          variant="ghost"
+                        >
+                          Remove
+                        </Button>
+                      </Td>
                     </Tr>
                   ))
                 ) : (
@@ -143,7 +144,11 @@ const Cart = () => {
                   <Text>Grand Total</Text>
                   <Text>&#8363;{cartPrice + SHIPPING_PRICE}</Text>
                 </Flex>
-                <Button variant="main" onClick={() => router.push("/checkout")}>
+                <Button
+                  variant="main"
+                  mt="auto"
+                  onClick={() => router.push("/checkout")}
+                >
                   Proceed To Checkout
                 </Button>
               </Flex>

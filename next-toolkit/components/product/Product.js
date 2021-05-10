@@ -121,7 +121,7 @@ const Product = ({ product }) => {
           {product.name}
         </Text>
         <Rating
-          value={getAverageRating(product)}
+          product={product}
           numReviews={product.reviews.length}
           size="sm"
         />

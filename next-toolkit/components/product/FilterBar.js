@@ -17,7 +17,7 @@ const FilterBar = () => {
   const dispatch = useDispatch();
   return (
     <Menu>
-      <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
+      <MenuButton borderRadius={0} as={Button} rightIcon={<ChevronDownIcon />}>
         {filterTitle}
       </MenuButton>
       <MenuList>

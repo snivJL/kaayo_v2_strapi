@@ -13,7 +13,7 @@ const ShopPanel = () => {
     dispatch(fetchProducts());
   }, [filterBy, sortBy.cat, sortBy.type]);
   return (
-    <Flex align="center" mb={8}>
+    <Flex align="center" borderRadius="4px" bg="primary.500" mb={8}>
       <FilterBar />
       <SortBar />
     </Flex>

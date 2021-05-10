@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk, current } from "@reduxjs/toolkit";
 import api from "../../api";
-import Cookie from "js-cookie";
 
 const initialState = {
   orderStatus: "pending",
@@ -15,6 +14,7 @@ const initialState = {
       ? JSON.parse(window.localStorage.getItem("orderPrice"))
       : 0,
   error: "",
+  email: "",
   phone: "",
   fullname: "",
   address: "",
@@ -22,18 +22,34 @@ const initialState = {
   ward: "",
   district: "",
   paymentMethod: "",
+  orderDetail: { cart: [] },
 };
 
 export const createOrder = createAsyncThunk(
   "orders/create",
   async (order, { getState }) => {
+    const email = getState().auth.user.email
+      ? getState().auth.user.email
+      : getState().order.email;
     const { data } = await api.post(`${process.env.STRAPI_URL}/orders`, {
       ...order,
       status: getState().order.orderStatus,
+      email,
     });
     return data;
   }
 );
+
+export const getSingleOrder = createAsyncThunk(
+  "orders/getSingleOrder",
+  async (orderId) => {
+    const { data } = await api.get(
+      `${process.env.STRAPI_URL}/orders/${orderId}`
+    );
+    return data;
+  }
+);
+
 export const orderSlice = createSlice({
   name: "order",
   initialState,
@@ -93,12 +109,13 @@ export const orderSlice = createSlice({
         );
         state.cart.splice(0, state.cart.length, ...newArray);
       } else {
-        state.cart.splice(0, state.cart.length, []);
+        state.cart.splice(0, state.cart.length);
       }
 
       localStorage.setItem("cart", JSON.stringify(current(state.cart)));
       localStorage.setItem("orderPrice", state.price);
     },
+
     addEmail(state, action) {
       state.email = action.payload.email;
     },
@@ -121,12 +138,24 @@ export const orderSlice = createSlice({
       state.status = "loading";
     },
     [createOrder.fulfilled]: (state, action) => {
-      state.status = "succeeded";
-      state.orderId = action.payload.id;
+      state.cart.splice(0, state.cart.length);
       localStorage.removeItem("cart");
       localStorage.removeItem("orderPrice");
+      state.status = "succeeded";
+      state.orderId = action.payload.id;
     },
     [createOrder.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error.message;
+    },
+    [getSingleOrder.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [getSingleOrder.fulfilled]: (state, action) => {
+      state.status = "succeeded";
+      state.orderDetail = action.payload;
+    },
+    [getSingleOrder.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
     },
@@ -142,6 +171,7 @@ export const {
   removeFromCart,
   addShipping,
   addPaymentMethod,
+  clearItemFromCart,
 } = orderSlice.actions;
 
 export const cart = (state) => state.order.cart;
