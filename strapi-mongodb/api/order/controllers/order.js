@@ -33,6 +33,14 @@ module.exports = {
 
       console.log("BODY", ctx.request.body, cart);
 
+      const product = await strapi
+        .query("product")
+        .update(
+          { id: cart[0].product.id },
+          { $inc: { countInStock: -cart[0].qty } }
+        );
+      console.log("PRODUCT", product);
+
       entity = await strapi.services.order.create(ctx.request.body);
     }
     return sanitizeEntity(entity, { model: strapi.models.order });
