@@ -40,7 +40,6 @@ module.exports = {
             { $inc: { countInStock: -item.qty } }
           )
       );
-      // const product =
 
       entity = await strapi.services.order.create(ctx.request.body);
     }
