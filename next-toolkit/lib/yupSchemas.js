@@ -35,3 +35,7 @@ export const shippingSchema = Yup.object().shape({
   district: Yup.string(),
   ward: Yup.string(),
 });
+
+export const searchTermSchema = Yup.object().shape({
+  searchTerm: Yup.string().required(""),
+});

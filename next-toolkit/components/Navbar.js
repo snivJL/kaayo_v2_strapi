@@ -28,6 +28,7 @@ import WishlistPopover from "./product/WishlistPopover";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUser, faHeart } from "@fortawesome/free-solid-svg-icons";
 import { getTotalCartItems } from "../lib/utils";
+import Searchbar from "./Searchbar";
 
 const Links = ["/shop", "/ingredients", "/story"];
 
@@ -58,7 +59,7 @@ export default function Navbar() {
           zIndex: 500,
         }}
       >
-        <Grid h={24} templateColumns="repeat(5,1fr)">
+        <Grid h={24} templateColumns="repeat(6,1fr)">
           <IconButton
             size={"md"}
             my="auto"
@@ -80,7 +81,7 @@ export default function Navbar() {
               </Heading>
             </Flex>
           </GridItem>
-          <GridItem colSpan={3}>
+          <GridItem colSpan={4}>
             <Flex
               h="100%"
               justify="space-around"
@@ -96,9 +97,10 @@ export default function Navbar() {
               {Links.map((link) => (
                 <NavLink key={link}>{link}</NavLink>
               ))}
+              <Searchbar />
             </Flex>
           </GridItem>
-          <GridItem colSpan={1} rowStart={1} colStart={5}>
+          <GridItem colSpan={1} rowStart={1} colStart={6}>
             <Flex h="100%" align="center" justify="center">
               {/* <Button
                 variant={"solid"}
