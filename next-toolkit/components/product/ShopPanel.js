@@ -10,7 +10,8 @@ const ShopPanel = () => {
   const filterBy = useSelector((state) => state.product.filterBy);
   const sortBy = useSelector((state) => state.product.sortBy);
   useEffect(() => {
-    dispatch(fetchProducts());
+    if (filterBy || filterBy === "")
+      dispatch(fetchProducts({ start: 0, limit: 10 }));
   }, [filterBy, sortBy.cat, sortBy.type]);
   return (
     <Flex align="center" borderRadius="4px" bg="primary.500" mb={8}>

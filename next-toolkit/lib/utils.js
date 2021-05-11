@@ -23,7 +23,6 @@ export const VND = (size = "sm") => (
 );
 
 export const formatPrice = (price) => {
-  console.log("PRICE", price);
   return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 };
 

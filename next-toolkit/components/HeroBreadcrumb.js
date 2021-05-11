@@ -23,7 +23,6 @@ const HeroBreadcrumb = ({ path, product = {} }) => {
               href={`/${item}`}
               isCurrentPage={index === path.split("/").length - 1}
             >
-              {console.log(path.split("/").length, index)}
               <Text
                 casing="uppercase"
                 color={

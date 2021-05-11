@@ -5,20 +5,22 @@ const initialState = {
   products: [],
   selectedProduct: {},
   status: "idle",
-  filterBy: "",
+  filterBy: null,
   sortBy: { cat: "createdAt", type: "desc" },
+  csr: false,
   error: null,
 };
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async (params, { getState }) => {
+  async ({ start = 0, limit = 10 }, { getState }) => {
     const { filterBy, sortBy } = getState().product;
-    console.log("HERE", getState().product);
-
-    const { data } = await api.get(
-      `${process.env.STRAPI_URL}/products?_sort=${sortBy.cat}:${sortBy.type}&categories.name_contains=${filterBy}`
-    );
+    console.log("HERE", start, limit);
+    // const start = params.start ? params.start : 1;
+    // const limit = params.limit ? params.limit : 8;
+    const url = `${process.env.STRAPI_URL}/products?_sort=${sortBy.cat}:${sortBy.type}&categories.name_contains=${filterBy}&_start=${start}&_limit=${limit}`;
+    console.log("URL", url);
+    const { data } = await api.get(url);
     return data;
   }
 );
@@ -34,6 +36,15 @@ export const filterByCategories = createAsyncThunk(
   }
 );
 
+export const countProducts = createAsyncThunk(
+  "products/countProducts",
+  async (undefined, { getState }) => {
+    const { filterBy } = getState().product;
+    const url = `${process.env.STRAPI_URL}/products/count?categories.name_contains=${filterBy}`;
+    const { data } = await api.get(url);
+    return data;
+  }
+);
 export const productSlice = createSlice({
   name: "product",
   initialState,
@@ -55,6 +66,7 @@ export const productSlice = createSlice({
     },
     [fetchProducts.fulfilled]: (state, action) => {
       state.status = "succeeded";
+      state.csr = true;
       state.filter = action.payload;
       // Add any fetched posts to the array
       state.products = action.payload;
@@ -72,6 +84,17 @@ export const productSlice = createSlice({
       state.filteredProducts = action.payload;
     },
     [filterByCategories.rejected]: (state, action) => {
+      state.status = "failed";
+      state.error = action.error.message;
+    },
+    [countProducts.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [countProducts.fulfilled]: (state, action) => {
+      state.status = "succeeded";
+      state.totalProducts = action.payload;
+    },
+    [countProducts.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
     },
