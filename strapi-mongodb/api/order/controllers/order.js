@@ -32,14 +32,15 @@ module.exports = {
       );
 
       console.log("BODY", ctx.request.body, cart);
-
-      const product = await strapi
-        .query("product")
-        .update(
-          { id: cart[0].product.id },
-          { $inc: { countInStock: -cart[0].qty } }
-        );
-      console.log("PRODUCT", product);
+      await cart.map((item) =>
+        strapi
+          .query("product")
+          .update(
+            { id: item.product.id },
+            { $inc: { countInStock: -item.qty } }
+          )
+      );
+      // const product =
 
       entity = await strapi.services.order.create(ctx.request.body);
     }
