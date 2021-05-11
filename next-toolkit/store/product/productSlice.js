@@ -55,9 +55,11 @@ export const productSlice = createSlice({
     },
     setFilter(state, action) {
       state.filterBy = action.payload;
+      state.csr = true;
     },
     setSort(state, action) {
       state.sortBy = action.payload;
+      state.csr = true;
     },
   },
   extraReducers: {
@@ -88,14 +90,14 @@ export const productSlice = createSlice({
       state.error = action.error.message;
     },
     [countProducts.pending]: (state, action) => {
-      state.status = "loading";
+      // state.status = "loading";
     },
     [countProducts.fulfilled]: (state, action) => {
-      state.status = "succeeded";
+      // state.status = "succeeded";
       state.totalProducts = action.payload;
     },
     [countProducts.rejected]: (state, action) => {
-      state.status = "failed";
+      // state.status = "failed";
       state.error = action.error.message;
     },
   },
