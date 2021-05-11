@@ -8,7 +8,7 @@ const ReviewCard = ({ review }) => {
     <Flex mb={4} justify="center" direction="column">
       <HStack align="center" spacing={4} mb={4}>
         <Heading fontSize="lg">{review.name}</Heading>
-        <Rating value={review.rating} size="xs"></Rating>
+        <Rating reviewRating={review.rating} size="xs"></Rating>
       </HStack>
       <Text mb={4} align="left">
         {review.comment}

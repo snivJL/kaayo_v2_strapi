@@ -61,6 +61,7 @@ export default function Navbar() {
         <Grid h={24} templateColumns="repeat(5,1fr)">
           <IconButton
             size={"md"}
+            my="auto"
             icon={isOpen ? <CloseIcon /> : <HamburgerIcon />}
             aria-label={"Open Menu"}
             display={{ md: !isOpen ? "none" : "inherit" }}

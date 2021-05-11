@@ -4,8 +4,8 @@ import { faStar, faStarHalfAlt } from "@fortawesome/free-solid-svg-icons";
 import { faStar as emptyStar } from "@fortawesome/free-regular-svg-icons";
 import { Text } from "@chakra-ui/react";
 import { getAverageRating } from "../../lib/utils";
-const Rating = ({ product, size = "1x", numReviews }) => {
-  const value = getAverageRating(product);
+const Rating = ({ product, size = "1x", numReviews, reviewRating }) => {
+  const value = reviewRating ? reviewRating : getAverageRating(product);
   return (
     <Text color={"#C39E5C"}>
       {value >= 1 ? (
