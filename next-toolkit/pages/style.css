@@ -107,3 +107,8 @@ li .next {
   padding: 0;
   width: 19px;
 }
+.pagination .disabled,
+.pagination .disabled > * {
+  opacity: 50%;
+  cursor: not-allowed;
+}

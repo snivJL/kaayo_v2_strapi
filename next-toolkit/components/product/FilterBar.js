@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useRouter } from "next/router";
 import {
   Menu,
   MenuButton,
@@ -9,9 +10,9 @@ import {
 } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
-import { setFilter } from "../../store/product/productSlice";
 
 const FilterBar = () => {
+  const router = useRouter();
   const [filterTitle, setFilterTitle] = useState("All");
   const status = useSelector((state) => state.product.status);
   const dispatch = useDispatch();
@@ -22,50 +23,44 @@ const FilterBar = () => {
       </MenuButton>
       <MenuList>
         <MenuItem
-          onClick={(e) => {
-            setFilterTitle("All");
-            dispatch(setFilter(""));
+          onClick={() => {
+            router.push("/shop");
           }}
         >
           All
         </MenuItem>
         <MenuItem
-          onClick={(e) => {
-            setFilterTitle("Charcoal Soap");
-            dispatch(setFilter("charcoal"));
+          onClick={() => {
+            router.push("/shop?cat=charcoal_soap");
           }}
         >
           Charcoal Soap
         </MenuItem>
         <MenuItem
-          onClick={(e) => {
-            setFilterTitle("Spice Soap");
-            dispatch(setFilter("spice"));
+          onClick={() => {
+            router.push("/shop?cat=spice_soap");
           }}
         >
           Spice Soap
         </MenuItem>
         <MenuDivider />
         <MenuItem
-          onClick={(e) => {
-            setFilterTitle("Body Butter");
-            dispatch(setFilter("body"));
+          onClick={() => {
+            router.push("/shop?cat=body_butter");
           }}
         >
           Body Butter
         </MenuItem>
         <MenuItem
-          onClick={(e) => {
-            setFilterTitle("Lip Balm");
-            dispatch(setFilter("lip"));
+          onClick={() => {
+            router.push("/shop?cat=lip_balm");
           }}
         >
           Lip Balm
         </MenuItem>
         <MenuItem
-          onClick={(e) => {
-            setFilterTitle("Shampoo Bar");
-            dispatch(setFilter("shampoo"));
+          onClick={() => {
+            router.push("/shop?cat=shampoo_bar");
           }}
         >
           Shampoo Bar

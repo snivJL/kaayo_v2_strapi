@@ -8,17 +8,24 @@ const initialState = {
   filterBy: null,
   sortBy: { cat: "createdAt", type: "desc" },
   csr: false,
+  totalProducts: null,
   error: null,
 };
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async ({ start = 0, limit = 10 }, { getState }) => {
-    const { filterBy, sortBy } = getState().product;
-    console.log("HERE", start, limit);
-    // const start = params.start ? params.start : 1;
-    // const limit = params.limit ? params.limit : 8;
-    const url = `${process.env.STRAPI_URL}/products?_sort=${sortBy.cat}:${sortBy.type}&categories.name_contains=${filterBy}&_start=${start}&_limit=${limit}`;
+  async (params) => {
+    const start = params.start ? params.start : 0;
+    const limit = params.limit ? params.limit : 8;
+
+    const sortBy = params.sort
+      ? { cat: params.sort.split(":")[0], type: params.sort.split(":")[1] }
+      : { cat: "createdAt", type: "desc" };
+
+    console.log("FETCH PRODUCTS PARAMS", sortBy);
+    const url = params.filter
+      ? `${process.env.STRAPI_URL}/products?_sort=${sortBy.cat}:${sortBy.type}&categories.name_contains=${params.filter}&_start=${start}&_limit=${limit}`
+      : `${process.env.STRAPI_URL}/products?_sort=${sortBy.cat}:${sortBy.type}&_start=${start}&_limit=${limit}`;
     console.log("URL", url);
     const { data } = await api.get(url);
     return data;
@@ -48,8 +55,7 @@ export const countProducts = createAsyncThunk(
 
 export const searchProducts = createAsyncThunk(
   "products/searchProducts",
-  async ({ searchTerm }) => {
-    console.log(searchTerm);
+  async (searchTerm) => {
     const url = `${process.env.STRAPI_URL}/products/search?name_contains=${searchTerm}`;
     const { data } = await api.get(url);
     return data;
@@ -71,6 +77,9 @@ export const productSlice = createSlice({
       state.sortBy = action.payload;
       state.csr = true;
     },
+    setTotalProducts(state, action) {
+      state.totalProducts = action.payload;
+    },
   },
   extraReducers: {
     [fetchProducts.pending]: (state, action) => {
@@ -79,8 +88,6 @@ export const productSlice = createSlice({
     [fetchProducts.fulfilled]: (state, action) => {
       state.status = "succeeded";
       state.csr = true;
-      // state.filter = action.payload;
-      // Add any fetched posts to the array
       state.products = action.payload;
     },
     [fetchProducts.rejected]: (state, action) => {
@@ -125,7 +132,12 @@ export const productSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const { getSelectedProduct, setFilter, setSort } = productSlice.actions;
+export const {
+  getSelectedProduct,
+  setFilter,
+  setSort,
+  setTotalProducts,
+} = productSlice.actions;
 
 export const selectAllProducts = (state) => state.product.products;
 

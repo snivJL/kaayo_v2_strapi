@@ -3,10 +3,13 @@ import { Menu, MenuButton, MenuList, MenuItem, Button } from "@chakra-ui/react";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts, setSort } from "../../store/product/productSlice";
+import { useRouter } from "next/router";
 
 const SortBar = () => {
   const [sortTitle, setSortTitle] = useState("Latest");
   const status = useSelector((state) => state.product.status);
+  const router = useRouter();
+  console.log("ROUTER", router);
   const dispatch = useDispatch();
   return (
     <Menu>
@@ -17,7 +20,9 @@ const SortBar = () => {
         <MenuItem
           onClick={(e) => {
             setSortTitle("Price Asc");
-            dispatch(setSort({ cat: "price", type: "asc" }));
+            router.replace({
+              query: { ...router.query, _sort: "price:asc" },
+            });
           }}
         >
           Price Asc
@@ -25,7 +30,9 @@ const SortBar = () => {
         <MenuItem
           onClick={(e) => {
             setSortTitle("Price Desc");
-            dispatch(setSort({ cat: "price", type: "desc" }));
+            router.replace({
+              query: { ...router.query, _sort: "price:desc" },
+            });
           }}
         >
           Price Desc
@@ -33,7 +40,9 @@ const SortBar = () => {
         <MenuItem
           onClick={(e) => {
             setSortTitle("Latest");
-            dispatch(setSort({ cat: "createdAt", type: "desc" }));
+            router.replace({
+              query: { ...router.query, _sort: "createdAt:desc" },
+            });
           }}
         >
           Latest
@@ -41,7 +50,9 @@ const SortBar = () => {
         <MenuItem
           onClick={(e) => {
             setSortTitle("Oldest");
-            dispatch(setSort({ cat: "createdAt", type: "asc" }));
+            router.replace({
+              query: { ...router.query, _sort: "createdAt:asc" },
+            });
           }}
         >
           Oldest
@@ -49,7 +60,9 @@ const SortBar = () => {
         <MenuItem
           onClick={(e) => {
             setSortTitle("Ratings");
-            dispatch(setSort({ cat: "price", type: "desc" }));
+            router.replace({
+              query: { ...router.query, _sort: "rating:desc" },
+            });
           }}
         >
           Ratings
