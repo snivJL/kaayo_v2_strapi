@@ -45,6 +45,16 @@ export const countProducts = createAsyncThunk(
     return data;
   }
 );
+
+export const searchProducts = createAsyncThunk(
+  "products/searchProducts",
+  async ({ searchTerm }) => {
+    console.log(searchTerm);
+    const url = `${process.env.STRAPI_URL}/products/search?name_contains=${searchTerm}`;
+    const { data } = await api.get(url);
+    return data;
+  }
+);
 export const productSlice = createSlice({
   name: "product",
   initialState,
@@ -69,7 +79,7 @@ export const productSlice = createSlice({
     [fetchProducts.fulfilled]: (state, action) => {
       state.status = "succeeded";
       state.csr = true;
-      state.filter = action.payload;
+      // state.filter = action.payload;
       // Add any fetched posts to the array
       state.products = action.payload;
     },
@@ -98,6 +108,17 @@ export const productSlice = createSlice({
     },
     [countProducts.rejected]: (state, action) => {
       // state.status = "failed";
+      state.error = action.error.message;
+    },
+    [searchProducts.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [searchProducts.fulfilled]: (state, action) => {
+      state.status = "succeeded";
+      state.products = action.payload;
+    },
+    [searchProducts.rejected]: (state, action) => {
+      state.status = "failed";
       state.error = action.error.message;
     },
   },

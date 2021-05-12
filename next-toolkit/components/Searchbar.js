@@ -5,23 +5,25 @@ import { SearchIcon } from "@chakra-ui/icons";
 import { Formik, Form } from "formik";
 import { searchTermSchema } from "../lib/yupSchemas";
 import InputField from "./InputField";
+import { searchProducts } from "../store/product/productSlice";
 
 const Searchbar = () => {
+  const dispatch = useDispatch();
   return (
     <Formik
       initialValues={{ searchTerm: "" }}
       validationSchema={searchTermSchema}
       onSubmit={(values) => {
-        console.log(values);
+        dispatch(searchProducts(values));
+        return;
       }}
     >
-      {({ isSubmitting }) => (
+      {({}) => (
         <Form>
           <InputGroup justifySelf="end" w="150px">
             <InputField name="searchTerm" placeholder="Search" />
             <IconButton
               as={Button}
-              colorScheme="green"
               aria-label="Search database"
               icon={<SearchIcon />}
             />

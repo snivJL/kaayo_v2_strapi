@@ -10,7 +10,7 @@ const InputField = ({ label, ...props }) => {
   const [field, meta] = useField(props);
   return (
     <FormControl isInvalid={!!meta.error && meta.touched}>
-      <FormLabel htmlFor={field.name}>{label}</FormLabel>
+      {label && <FormLabel htmlFor={field.name}>{label}</FormLabel>}
       <Input
         {...field}
         {...props}
