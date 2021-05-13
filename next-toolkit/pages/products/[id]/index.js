@@ -204,8 +204,7 @@ export const getStaticProps = async (ctx) => {
 export const getStaticPaths = async () => {
   const res = await fetch("http://localhost:1337/products");
   const productList = await res.json();
-  console.log(productList);
-  const ids = productList.map((p) => p.id);
+  const ids = productList.products.map((p) => p.id);
   const paths = ids.map((id) => ({ params: { id: id.toString() } }));
 
   return {

@@ -28,8 +28,7 @@ const Shop = ({ productList, totalProducts }) => {
     if (searchTerm) dispatch(searchProducts(searchTerm));
   }, [searchTerm]);
   useEffect(() => {
-    // if (filter || sort || page)
-    if (!searchTerm) dispatch(fetchProducts({ filter, sort, page }));
+    if (filter || sort || page) dispatch(fetchProducts({ filter, sort, page }));
   }, [filter, sort, page]);
   useEffect(() => {
     dispatch(setTotalProducts(totalProducts));

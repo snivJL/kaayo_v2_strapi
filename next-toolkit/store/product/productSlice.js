@@ -9,6 +9,7 @@ const initialState = {
   sortBy: { cat: "createdAt", type: "desc" },
   csr: false,
   totalProducts: null,
+  currentPage: 1,
   error: null,
 };
 
