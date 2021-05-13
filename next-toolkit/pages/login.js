@@ -10,8 +10,9 @@ import { loginSchema } from "../lib/yupSchemas";
 
 const Login = () => {
   const router = useRouter();
-  const auth = useSelector((state) => state.auth);
+  const isAuth = useSelector((state) => state.auth.isAuth);
   const dispatch = useDispatch();
+  if (isAuth) router.push("/shop");
 
   return (
     <Wrapper variant="small">
@@ -19,7 +20,7 @@ const Login = () => {
         initialValues={{ password: "", identifier: "" }}
         validationSchema={loginSchema}
         onSubmit={(values) => {
-          return dispatch(login(values));
+          dispatch(login(values));
         }}
       >
         {({ isSubmitting }) => (

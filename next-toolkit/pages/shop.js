@@ -15,11 +15,13 @@ import {
 
 const Shop = ({ productList, totalProducts }) => {
   console.log(productList, totalProducts);
+
   const router = useRouter();
   let searchTerm = router.query.search;
   let filter = router.query.cat ? router.query.cat.split("_")[0] : null;
   let sort = router.query._sort ? router.query._sort : null;
   let page = router.query.page;
+  console.log(router.query);
 
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
@@ -28,13 +30,12 @@ const Shop = ({ productList, totalProducts }) => {
     if (searchTerm) dispatch(searchProducts(searchTerm));
   }, [searchTerm]);
   useEffect(() => {
-    if (filter || sort || page) dispatch(fetchProducts({ filter, sort, page }));
-  }, [filter, sort, page]);
+    if (filter || sort || page || !router.query.cat)
+      dispatch(fetchProducts({ filter, sort, page }));
+  }, [filter, sort, page, router.query.cat]);
+  // router.query.cat dependency to fetch if filter is set to "All", route "/shop"
   useEffect(() => {
     dispatch(setTotalProducts(totalProducts));
-    // if (csr) {
-    //   dispatch(fetchProducts({ start: 0, limit: 10 }));
-    // }
   }, []);
   return (
     <>

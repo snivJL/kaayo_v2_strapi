@@ -33,7 +33,7 @@ const Pagination = () => {
       onPageChange={handlePageClick}
       containerClassName={"pagination"}
       activeClassName={"active"}
-      forcePage={0}
+      forcePage={currentPage - 1}
     />
   );
 };

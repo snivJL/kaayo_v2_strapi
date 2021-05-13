@@ -1,5 +1,6 @@
 import { Link as NextLink } from "next/link";
 import Image from "next/image";
+import { useRouter } from "next/router";
 import {
   Box,
   Flex,
@@ -40,8 +41,32 @@ const NavLink = ({ children }) => (
   </Text>
 );
 
+const AuthLinks = () => {
+  const dispatch = useDispatch();
+  return (
+    <>
+      <MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
+      <MenuItem>Link 2</MenuItem>
+      <MenuDivider />
+      <MenuItem>Link 3</MenuItem>
+    </>
+  );
+};
+const GuestLinks = () => {
+  const router = useRouter();
+  return (
+    <>
+      <MenuItem onClick={() => router.push("/login")}>Login</MenuItem>
+      <MenuItem>Link 2</MenuItem>
+      <MenuDivider />
+      <MenuItem>Link 3</MenuItem>
+    </>
+  );
+};
+
 export default function Navbar() {
   const cart = useSelector((state) => state.order.cart);
+  const isAuth = useSelector((state) => state.auth.isAuth);
   const wishlist = useSelector((state) => state.wishlist.wishlist);
   const { isOpen, onOpen, onClose } = useDisclosure();
   const dispatch = useDispatch();
@@ -121,12 +146,7 @@ export default function Navbar() {
                 >
                   <FontAwesomeIcon icon={faUser} />
                 </MenuButton>
-                <MenuList>
-                  <MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
-                  <MenuItem>Link 2</MenuItem>
-                  <MenuDivider />
-                  <MenuItem>Link 3</MenuItem>
-                </MenuList>
+                <MenuList>{isAuth ? <AuthLinks /> : <GuestLinks />}</MenuList>
               </Menu>
               <Box position="relative" mr={2}>
                 <CartPopover />
