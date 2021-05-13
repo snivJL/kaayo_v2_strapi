@@ -13,23 +13,46 @@ const {
 module.exports = {
   async find(ctx) {
     const filters = convertRestQueryParams(ctx.request.query);
-    // let entities;
-    // if (ctx.query._q) {
-    //   entities = await strapi.services.product.search(ctx.query);
-    // } else {
-    //   entities = await strapi.query("product").find("");
+    console.log(filters);
+    // if (filters.where.length > 0) {
+    //   const result = await strapi.query("product").model.find({
+    //     categories: { $regex: { name: "Charcoal Soap" } },
+    //   });
+
+    //   console.log("RESULT", result);
     // }
 
-    // return entities.map((entity) =>
-    //   sanitizeEntity(entity, { model: strapi.models.product })
-    // );
-    const res = buildQuery({
+    const totalDocuments = await strapi.query("product").count();
+    console.log("count", totalDocuments);
+
+    const totalPages = Math.ceil(totalDocuments / 8);
+    console.log("totalpages", totalPages);
+
+    // const offset = limit * (page - 1);
+    // console.log("offset", offset);
+    const pageNumber = filters.start / 8 + 1;
+    console.log("pageNumber", pageNumber);
+
+    const products = await buildQuery({
       model: strapi.models.product,
       filters,
       populate: ["ingredients", "categories", "reviews"],
     });
-    console.log("LENGTH", res.length, typeof res, res);
-    return res;
+    filters.limit = 20;
+    filters.start = 0;
+    const res = await buildQuery({
+      model: strapi.models.product,
+      filters,
+      populate: ["ingredients", "categories", "reviews"],
+    });
+
+    return {
+      products,
+      totalResults: res.length,
+      totalPages,
+      totalProducts: totalDocuments,
+      pageNumber,
+    };
   },
   async search(ctx) {
     const filters = convertRestQueryParams(ctx.request.query);

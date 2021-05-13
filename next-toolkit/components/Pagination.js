@@ -1,22 +1,24 @@
 import React, { useState } from "react";
 import ReactPaginate from "react-paginate";
+import { useRouter } from "next/router";
 import { useSelector, useDispatch } from "react-redux";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faChevronRight,
   faChevronLeft,
 } from "@fortawesome/free-solid-svg-icons";
-import { countProducts, fetchProducts } from "../store/product/productSlice";
 const Pagination = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
-  const { totalProducts, csr, products } = product;
-  const count = totalProducts;
-  const pageCount = Math.ceil(count / 10);
+  const { totalProducts, csr, totalResults, currentPage } = product;
+  const pageCount = csr
+    ? Math.ceil(totalResults / 8)
+    : Math.ceil(totalProducts / 8);
   const handlePageClick = ({ selected: page }) => {
-    const limit = 10;
-    const start = page * limit;
-    dispatch(fetchProducts({ start, limit }));
+    router.replace({
+      query: { ...router.query, page: page + 1 },
+    });
   };
 
   return (
@@ -32,6 +34,7 @@ const Pagination = () => {
       containerClassName={"pagination"}
       // subContainerClassName={"pages pagination"}
       activeClassName={"active"}
+      forcePage={currentPage - 1}
     />
   );
 };

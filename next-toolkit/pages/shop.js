@@ -19,6 +19,7 @@ const Shop = ({ productList, totalProducts }) => {
   let searchTerm = router.query.search;
   let filter = router.query.cat ? router.query.cat.split("_")[0] : null;
   let sort = router.query._sort ? router.query._sort : null;
+  let page = router.query.page;
 
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
@@ -27,14 +28,15 @@ const Shop = ({ productList, totalProducts }) => {
     if (searchTerm) dispatch(searchProducts(searchTerm));
   }, [searchTerm]);
   useEffect(() => {
-    if (filter || sort) dispatch(fetchProducts({ filter, sort }));
-  }, [filter, sort]);
-  // useEffect(() => {
-  //   dispatch(setTotalProducts(totalProducts));
-  //   if (csr) {
-  //     dispatch(fetchProducts({ start: 0, limit: 10 }));
-  //   }
-  // }, [filterBy, sortBy.cat, sortBy.type]);
+    // if (filter || sort || page)
+    if (!searchTerm) dispatch(fetchProducts({ filter, sort, page }));
+  }, [filter, sort, page]);
+  useEffect(() => {
+    dispatch(setTotalProducts(totalProducts));
+    // if (csr) {
+    //   dispatch(fetchProducts({ start: 0, limit: 10 }));
+    // }
+  }, []);
   return (
     <>
       <HeroBreadcrumb path="shop"></HeroBreadcrumb>{" "}
@@ -75,14 +77,14 @@ const Shop = ({ productList, totalProducts }) => {
 };
 
 export const getStaticProps = async () => {
-  const res = await fetch("http://localhost:1337/products?_limit=10");
+  const res = await fetch("http://localhost:1337/products?_limit=8");
   const data = await res.json();
-  const countRes = await fetch("http://localhost:1337/products/count");
-  const totalProducts = await countRes.json();
+  // const countRes = await fetch("http://localhost:1337/products/count");
+  // const totalProducts = await countRes.json();
   return {
     props: {
-      productList: data,
-      totalProducts,
+      productList: data.products,
+      totalProducts: data.totalProducts,
     },
   };
 };

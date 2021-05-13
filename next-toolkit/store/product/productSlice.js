@@ -15,8 +15,15 @@ const initialState = {
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
   async (params) => {
-    const start = params.start ? params.start : 0;
-    const limit = params.limit ? params.limit : 8;
+    const OFFSET = 8;
+    let start = params.start ? params.start : 0;
+    let limit = params.limit ? params.limit : OFFSET;
+
+    const page = params.page ? params.page : 1;
+
+    if (params.page) {
+      start = (page - 1) * OFFSET;
+    }
 
     const sortBy = params.sort
       ? { cat: params.sort.split(":")[0], type: params.sort.split(":")[1] }
@@ -88,7 +95,11 @@ export const productSlice = createSlice({
     [fetchProducts.fulfilled]: (state, action) => {
       state.status = "succeeded";
       state.csr = true;
-      state.products = action.payload;
+      state.products = action.payload.products;
+      state.totalProducts = action.payload.totalProducts;
+      state.currentPage = action.payload.pageNumber;
+      state.totalResults = action.payload.totalResults;
+      state.totalPages = action.payload.totalPages;
     },
     [fetchProducts.rejected]: (state, action) => {
       state.status = "failed";

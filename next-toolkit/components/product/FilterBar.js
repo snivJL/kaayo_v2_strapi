@@ -25,6 +25,7 @@ const FilterBar = () => {
         <MenuItem
           onClick={() => {
             router.push("/shop");
+            setFilterTitle("All");
           }}
         >
           All
@@ -32,6 +33,7 @@ const FilterBar = () => {
         <MenuItem
           onClick={() => {
             router.push("/shop?cat=charcoal_soap");
+            setFilterTitle("Charcoal Soap");
           }}
         >
           Charcoal Soap
@@ -39,6 +41,7 @@ const FilterBar = () => {
         <MenuItem
           onClick={() => {
             router.push("/shop?cat=spice_soap");
+            setFilterTitle("Spice Soap");
           }}
         >
           Spice Soap
@@ -47,6 +50,7 @@ const FilterBar = () => {
         <MenuItem
           onClick={() => {
             router.push("/shop?cat=body_butter");
+            setFilterTitle("Body Butter");
           }}
         >
           Body Butter
@@ -54,6 +58,7 @@ const FilterBar = () => {
         <MenuItem
           onClick={() => {
             router.push("/shop?cat=lip_balm");
+            setFilterTitle("Lip Balm");
           }}
         >
           Lip Balm
@@ -61,6 +66,7 @@ const FilterBar = () => {
         <MenuItem
           onClick={() => {
             router.push("/shop?cat=shampoo_bar");
+            setFilterTitle("Shampoo Bar");
           }}
         >
           Shampoo Bar

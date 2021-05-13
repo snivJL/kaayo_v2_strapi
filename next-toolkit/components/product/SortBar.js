@@ -9,7 +9,6 @@ const SortBar = () => {
   const [sortTitle, setSortTitle] = useState("Latest");
   const status = useSelector((state) => state.product.status);
   const router = useRouter();
-  console.log("ROUTER", router);
   const dispatch = useDispatch();
   return (
     <Menu>
