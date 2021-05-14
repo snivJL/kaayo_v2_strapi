@@ -101,12 +101,7 @@ export const orderSlice = createSlice({
           console.log("in filter", action.payload, i.product.id);
           return i.product.id !== action.payload;
         });
-        console.log(
-          "FILTERED ARRAY",
-          newArray,
-          action.payload,
-          current(state.cart)
-        );
+
         state.cart.splice(0, state.cart.length, ...newArray);
       } else {
         state.cart.splice(0, state.cart.length);

@@ -47,6 +47,16 @@ const theme = extendTheme({
       defaultProps: {
         focusBorderColor: "primary.500",
       },
+
+      variants: {
+        responsive: {
+          popper: {
+            maxWidth: "unset",
+            width: "unset",
+          },
+        },
+      },
+
       // 3. We can add a new visual variant
     },
     Button: {

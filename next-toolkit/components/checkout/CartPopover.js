@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   IconButton,
@@ -12,20 +11,26 @@ import {
   VStack,
   Flex,
   Box,
+  Image,
   Text,
   StackDivider,
   Button,
+  useToast,
 } from "@chakra-ui/react";
+import { DeleteIcon } from "@chakra-ui/icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingBag } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { formatPrice } from "../../lib/utils";
+import { clearCart } from "../../store/order/orderSlice";
+import { useDispatch } from "react-redux";
 
 const CartPopover = () => {
   const cart = useSelector((state) => state.order.cart);
-
+  const dispatch = useDispatch();
+  const toast = useToast();
   return (
-    <Popover size="lg">
+    <Popover variant="responsive" size="lg">
       <PopoverTrigger>
         <IconButton
           variant="ghost"
@@ -45,26 +50,47 @@ const CartPopover = () => {
                     <Flex
                       align="center"
                       key={i.product.id}
-                      justify="start"
-                      mb={2}
+                      justify="space-between"
+                      mb={4}
+                      py={4}
                     >
                       <Image
-                        src="/images/christopher.png"
+                        src={i.product.images[0].name}
                         alt="Picture of the product"
-                        width={100}
-                        height={120}
+                        borderRadius="base"
+                        w="50px"
+                        h="70px"
                       />
-                      <VStack ml="auto" pr={4} align="start">
+                      <VStack align="start" w="35%">
                         <Text>{i.product.name}</Text>
                         <Text fontSize="sm">Qty: {i.qty}</Text>
-                        <Text fontSize="sm">
-                          &#8363;{formatPrice(i.product.price)}
-                        </Text>
                       </VStack>
+                      <Text fontSize="sm">
+                        &#8363;{formatPrice(i.product.price)}
+                      </Text>
+                      <IconButton
+                        size="sm"
+                        variant="ghost"
+                        as={Button}
+                        onClick={() => {
+                          dispatch(clearCart(i.product.id));
+                          toast({
+                            title: `${i.product.name} has been removed from your cart`,
+                            status: "success",
+                          });
+                        }}
+                        aria-label="Remove item from cart"
+                        icon={<DeleteIcon />}
+                      />
                     </Flex>
                   ))}
                   <VStack w="100%">
-                    <Flex w="100%" align="center" justify="space-between">
+                    <Flex
+                      w="100%"
+                      align="center"
+                      justify="space-between"
+                      mb={4}
+                    >
                       <Text>Total:</Text>
                       <Text>
                         &#8363;{formatPrice(localStorage.getItem("orderPrice"))}
@@ -81,7 +107,7 @@ const CartPopover = () => {
                   </VStack>
                 </>
               ) : (
-                <Text>No items in cart</Text>
+                <Text w="fit-content">Your cart is empty</Text>
               )}
             </Box>
           </VStack>
