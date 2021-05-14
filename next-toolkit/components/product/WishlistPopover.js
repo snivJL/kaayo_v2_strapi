@@ -1,5 +1,4 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import {
   IconButton,
@@ -13,17 +12,23 @@ import {
   Flex,
   Box,
   Text,
+  Image,
   StackDivider,
+  useToast,
   Button,
 } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { useSelector } from "react-redux";
 import { formatPrice } from "../../lib/utils";
+import { AddIcon } from "@chakra-ui/icons";
+import { addToCart } from "../../store/order/orderSlice";
+import { useDispatch } from "react-redux";
 
 const WishlistPopover = () => {
   const wishlist = useSelector((state) => state.wishlist.wishlist);
-
+  const dispatch = useDispatch();
+  const toast = useToast();
   return (
     <Popover size="lg">
       <PopoverTrigger>
@@ -47,35 +52,45 @@ const WishlistPopover = () => {
             <Box w="100%">
               {wishlist && wishlist.length > 0 ? (
                 wishlist.map((product) => (
-                  <Flex align="center" key={product.id} justify="start" mb={2}>
+                  <Flex
+                    align="center"
+                    key={product.id}
+                    justify="space-between"
+                    mb={2}
+                    py={2}
+                  >
                     <Image
-                      src="/images/christopher.png"
+                      src={product.images[0].name}
                       alt="Picture of the product"
-                      width={100}
-                      height={120}
+                      borderRadius="base"
+                      w="50px"
+                      h="70px"
                     />
-                    <VStack ml="auto" pr={4} align="start">
-                      <Text>{product.name}</Text>
-                      <Text fontSize="sm">
-                        &#8363;{formatPrice(product.price)}
-                      </Text>
-                    </VStack>
+                    <Text w="35%">{product.name}</Text>
+
+                    <Text fontSize="sm">
+                      &#8363;{formatPrice(product.price)}
+                    </Text>
+                    <IconButton
+                      size="sm"
+                      variant="ghost"
+                      as={Button}
+                      onClick={() => {
+                        dispatch(addToCart({ product, qty: 1 }));
+                        toast({
+                          title: `${product.name} has been added to your cart`,
+                          status: "success",
+                        });
+                      }}
+                      aria-label="Add item to cart"
+                      icon={<AddIcon />}
+                    />
                   </Flex>
                 ))
               ) : (
                 <Text>No items in wishlist</Text>
               )}
             </Box>
-            <VStack w="100%">
-              <Flex align="center" w="100%" justify="space-between">
-                <Button variant="main">
-                  <Link href="/cart">View Cart</Link>
-                </Button>
-                <Button variant="main">
-                  <Link href="/checkout">Checkout</Link>
-                </Button>
-              </Flex>
-            </VStack>
           </VStack>
         </PopoverBody>
       </PopoverContent>
