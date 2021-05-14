@@ -5,7 +5,7 @@ import Moment from "react-moment";
 
 const ReviewCard = ({ review }) => {
   return (
-    <Flex mb={4} justify="center" direction="column">
+    <Flex mb={4} justify="center" direction="column" p={2} boxShadow="base">
       <HStack align="center" spacing={4} mb={4}>
         <Heading fontSize="lg">{review.name}</Heading>
         <Rating reviewRating={review.rating} size="xs"></Rating>

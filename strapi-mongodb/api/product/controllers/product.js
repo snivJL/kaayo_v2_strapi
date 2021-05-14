@@ -14,13 +14,6 @@ module.exports = {
   async find(ctx) {
     const filters = convertRestQueryParams(ctx.request.query);
     console.log(filters);
-    // if (filters.where.length > 0) {
-    //   const result = await strapi.query("product").model.find({
-    //     categories: { $regex: { name: "Charcoal Soap" } },
-    //   });
-
-    //   console.log("RESULT", result);
-    // }
 
     const totalDocuments = await strapi.query("product").count();
     console.log("count", totalDocuments);
@@ -28,8 +21,6 @@ module.exports = {
     const totalPages = Math.ceil(totalDocuments / 8);
     console.log("totalpages", totalPages);
 
-    // const offset = limit * (page - 1);
-    // console.log("offset", offset);
     const pageNumber = filters.start / 8 + 1;
     console.log("pageNumber", pageNumber);
 

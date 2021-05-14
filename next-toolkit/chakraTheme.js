@@ -60,7 +60,7 @@ const theme = extendTheme({
       variants: {
         main: {
           color: "white",
-          bg: "primary.500",
+          bg: "primary.900",
           _hover: { background: "primary.900" },
           _active: {
             transform: "scale(0.96)",

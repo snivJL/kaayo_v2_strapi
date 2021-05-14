@@ -17,26 +17,28 @@ import { useDispatch } from "react-redux";
 import { faEye, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useToast } from "@chakra-ui/react";
-
-const Product = ({ product }) => {
+const ImageRef = React.forwardRef(({ onClick, href }, ref) => {
+  return (
+    <a href={href} onClick={onClick} ref={ref}>
+      <Image src="/images/christopher.png" width={300} height={350} />
+    </a>
+  );
+});
+const Product = ({ product, maxW = "250px" }) => {
   const toast = useToast();
   const dispatch = useDispatch();
   return (
     <Box
       borderWidth="1px"
       borderRadius="md"
-      maxW="250px"
+      maxW={maxW}
       mx="auto"
       pb={2}
       // bg="white"
     >
       <Box className="product-card" pos="relative">
-        <Link href={`/products/${product.id}`}>
-          <Image
-            src={getStrapiMedia(product.images[0])}
-            width={300}
-            height={350}
-          />
+        <Link href={`/products/${product.id}`} passHref>
+          <ImageRef />
         </Link>
 
         <Box className="product-card-hidden" pos="absolute">

@@ -12,6 +12,8 @@ import "./style.css";
 import Router from "next/router";
 import NProgress from "nprogress";
 import "nprogress/nprogress.css";
+import "react-multi-carousel/lib/styles.css";
+import "focus-visible/dist/focus-visible";
 
 //Binding events.
 Router.events.on("routeChangeStart", (url) => {

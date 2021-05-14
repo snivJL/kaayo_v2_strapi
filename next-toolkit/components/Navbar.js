@@ -46,9 +46,9 @@ const AuthLinks = () => {
   return (
     <>
       <MenuItem onClick={() => dispatch(logout())}>Logout</MenuItem>
-      <MenuItem>Link 2</MenuItem>
+      <MenuItem>Profile</MenuItem>
       <MenuDivider />
-      <MenuItem>Link 3</MenuItem>
+      <MenuItem>My Orders</MenuItem>
     </>
   );
 };
@@ -57,9 +57,7 @@ const GuestLinks = () => {
   return (
     <>
       <MenuItem onClick={() => router.push("/login")}>Login</MenuItem>
-      <MenuItem>Link 2</MenuItem>
-      <MenuDivider />
-      <MenuItem>Link 3</MenuItem>
+      <MenuItem onClick={() => router.push("/register")}>Register</MenuItem>
     </>
   );
 };

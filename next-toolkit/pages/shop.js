@@ -34,6 +34,7 @@ const Shop = ({ productList, totalProducts }) => {
       dispatch(fetchProducts({ filter, sort, page }));
   }, [filter, sort, page, router.query.cat]);
   // router.query.cat dependency to fetch if filter is set to "All", route "/shop"
+
   useEffect(() => {
     dispatch(setTotalProducts(totalProducts));
   }, []);

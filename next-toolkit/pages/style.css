@@ -112,3 +112,8 @@ li .next {
   opacity: 50%;
   cursor: not-allowed;
 }
+
+.card-carousel-item {
+  max-width: 200px;
+  margin: 20px 40px;
+}
