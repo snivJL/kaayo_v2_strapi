@@ -24,6 +24,7 @@ import { useSelector } from "react-redux";
 import { formatPrice } from "../../lib/utils";
 import { clearCart } from "../../store/order/orderSlice";
 import { useDispatch } from "react-redux";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const CartPopover = () => {
   const cart = useSelector((state) => state.order.cart);
@@ -46,44 +47,53 @@ const CartPopover = () => {
             <Box w="100%">
               {cart && cart.length > 0 ? (
                 <>
-                  {cart.map((i) => (
-                    <Flex
-                      align="center"
-                      key={i.product.id}
-                      justify="space-between"
-                      mb={4}
-                      py={4}
-                    >
-                      <Image
-                        src={i.product.images[0].name}
-                        alt="Picture of the product"
-                        borderRadius="base"
-                        w="50px"
-                        h="70px"
-                      />
-                      <VStack align="start" w="35%">
-                        <Text>{i.product.name}</Text>
-                        <Text fontSize="sm">Qty: {i.qty}</Text>
-                      </VStack>
-                      <Text fontSize="sm">
-                        &#8363;{formatPrice(i.product.price)}
-                      </Text>
-                      <IconButton
-                        size="sm"
-                        variant="ghost"
-                        as={Button}
-                        onClick={() => {
-                          dispatch(clearCart(i.product.id));
-                          toast({
-                            title: `${i.product.name} has been removed from your cart`,
-                            status: "success",
-                          });
-                        }}
-                        aria-label="Remove item from cart"
-                        icon={<DeleteIcon />}
-                      />
-                    </Flex>
-                  ))}
+                  <TransitionGroup>
+                    {cart.map((i) => (
+                      <CSSTransition
+                        key={i.product.id}
+                        timeout={500}
+                        classNames="item"
+                      >
+                        <Flex
+                          align="center"
+                          key={i.product.id}
+                          justify="space-between"
+                          mb={4}
+                          py={2}
+                        >
+                          <Image
+                            src={i.product.images[0].name}
+                            alt="Picture of the product"
+                            borderRadius="base"
+                            w="50px"
+                            h="70px"
+                          />
+                          <VStack align="start" w="35%">
+                            <Text>{i.product.name}</Text>
+                            <Text fontSize="sm">Qty: {i.qty}</Text>
+                          </VStack>
+                          <Text fontSize="sm">
+                            &#8363;{formatPrice(i.product.price)}
+                          </Text>
+                          <IconButton
+                            size="sm"
+                            variant="ghost"
+                            as={Button}
+                            onClick={() => {
+                              dispatch(clearCart(i.product.id));
+                              toast({
+                                title: `${i.product.name} has been removed from your cart`,
+                                status: "success",
+                              });
+                            }}
+                            aria-label="Remove item from cart"
+                            icon={<DeleteIcon />}
+                          />
+                        </Flex>
+                      </CSSTransition>
+                    ))}
+                  </TransitionGroup>
+
                   <VStack w="100%">
                     <Flex
                       w="100%"
@@ -93,7 +103,8 @@ const CartPopover = () => {
                     >
                       <Text>Total:</Text>
                       <Text>
-                        &#8363;{formatPrice(localStorage.getItem("orderPrice"))}
+                        &#8363;
+                        {formatPrice(localStorage.getItem("orderPrice"))}
                       </Text>
                     </Flex>
                     <Flex align="center" w="100%" justify="space-between">

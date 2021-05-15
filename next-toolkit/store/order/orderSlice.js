@@ -106,7 +106,9 @@ export const orderSlice = createSlice({
       } else {
         state.cart.splice(0, state.cart.length);
       }
-
+      state.price = state.cart.reduce((acc, item) => {
+        return acc + item.product.price * item.qty;
+      }, 0);
       localStorage.setItem("cart", JSON.stringify(current(state.cart)));
       localStorage.setItem("orderPrice", state.price);
     },

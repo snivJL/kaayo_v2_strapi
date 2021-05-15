@@ -12,7 +12,6 @@ import {
   Flex,
   useToast,
 } from "@chakra-ui/react";
-
 import { useSelector, useDispatch } from "react-redux";
 import Wrapper from "../../components/Wrapper";
 import CardCarousel from "../product/CardCarousel";

@@ -15,28 +15,46 @@ const initialState = {
 
 export const fetchProducts = createAsyncThunk(
   "products/fetchProducts",
-  async (params) => {
-    const OFFSET = 8;
-    let start = params.start ? params.start : 0;
-    let limit = params.limit ? params.limit : OFFSET;
+  async (params, { rejectWithValue }) => {
+    try {
+      const OFFSET = 8;
+      let start = params.start ? params.start : 0;
+      let limit = params.limit ? params.limit : OFFSET;
+      const page = params.page ? params.page : 1;
+      if (params.page) {
+        start = (page - 1) * OFFSET;
+      }
+      const sortBy = params.sort
+        ? { cat: params.sort.split(":")[0], type: params.sort.split(":")[1] }
+        : { cat: "createdAt", type: "desc" };
+      const filters = params.cat
+        ? Array.isArray(params.cat)
+          ? params.cat
+              .reduce(
+                (acc, f) =>
+                  acc + `categories.name_contains=${f.split("_")[0]}&`,
+                ""
+              )
+              .slice(0, -1)
+          : `categories.name_contains=${params.cat.split("_")[0]}`
+        : null;
 
-    const page = params.page ? params.page : 1;
+      const url = params.cat
+        ? `/products?_sort=${sortBy.cat}:${sortBy.type}&_start=${start}&_limit=${limit}&${filters}`
+        : `/products?_sort=${sortBy.cat}:${sortBy.type}&_start=${start}&_limit=${limit}`;
+      console.log("URL", url);
+      const { data } = await api.get(url);
 
-    if (params.page) {
-      start = (page - 1) * OFFSET;
+      // const url = params.filter
+      //   ? `${process.env.STRAPI_URL}/products?_sort=${sortBy.cat}:${sortBy.type}&categories.name_contains=${params.filter}&_start=${start}&_limit=${limit}`
+      //   : `${process.env.STRAPI_URL}/products?_sort=${sortBy.cat}:${sortBy.type}&_start=${start}&_limit=${limit}`;
+      // console.log("URL", url);
+      // const { data } = await api.get(url);
+      return data;
+    } catch (error) {
+      console.log("reject with value", error.message);
+      return rejectWithValue(error.message ? error.message : error);
     }
-
-    const sortBy = params.sort
-      ? { cat: params.sort.split(":")[0], type: params.sort.split(":")[1] }
-      : { cat: "createdAt", type: "desc" };
-
-    console.log("FETCH PRODUCTS PARAMS", sortBy);
-    const url = params.filter
-      ? `${process.env.STRAPI_URL}/products?_sort=${sortBy.cat}:${sortBy.type}&categories.name_contains=${params.filter}&_start=${start}&_limit=${limit}`
-      : `${process.env.STRAPI_URL}/products?_sort=${sortBy.cat}:${sortBy.type}&_start=${start}&_limit=${limit}`;
-    console.log("URL", url);
-    const { data } = await api.get(url);
-    return data;
   }
 );
 

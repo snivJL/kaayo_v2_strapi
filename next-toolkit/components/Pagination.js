@@ -11,10 +11,8 @@ const Pagination = () => {
   const router = useRouter();
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
-  const { totalProducts, csr, totalResults, currentPage } = product;
-  const pageCount = csr
-    ? Math.ceil(totalResults / 8)
-    : Math.ceil(totalProducts / 8);
+  const { totalProducts, csr, totalPages, currentPage } = product;
+  const pageCount = csr ? totalPages : Math.ceil(totalProducts / 8);
   const handlePageClick = ({ selected: page }) => {
     router.replace({
       query: { ...router.query, page: page + 1 },

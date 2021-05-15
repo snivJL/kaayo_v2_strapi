@@ -24,6 +24,7 @@ import { formatPrice } from "../../lib/utils";
 import { AddIcon } from "@chakra-ui/icons";
 import { addToCart } from "../../store/order/orderSlice";
 import { useDispatch } from "react-redux";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 const WishlistPopover = () => {
   const wishlist = useSelector((state) => state.wishlist.wishlist);
@@ -51,42 +52,52 @@ const WishlistPopover = () => {
           <VStack divider={<StackDivider mx={0} borderColor="gray.200" />}>
             <Box w="100%">
               {wishlist && wishlist.length > 0 ? (
-                wishlist.map((product) => (
-                  <Flex
-                    align="center"
-                    key={product.id}
-                    justify="space-between"
-                    mb={2}
-                    py={2}
-                  >
-                    <Image
-                      src={product.images[0].name}
-                      alt="Picture of the product"
-                      borderRadius="base"
-                      w="50px"
-                      h="70px"
-                    />
-                    <Text w="35%">{product.name}</Text>
+                <>
+                  <TransitionGroup>
+                    {wishlist.map((product) => (
+                      <CSSTransition
+                        key={product.id}
+                        timeout={500}
+                        classNames="item"
+                      >
+                        <Flex
+                          align="center"
+                          key={product.id}
+                          justify="space-between"
+                          mb={2}
+                          py={2}
+                        >
+                          <Image
+                            src={product.images[0].name}
+                            alt="Picture of the product"
+                            borderRadius="base"
+                            w="50px"
+                            h="70px"
+                          />
+                          <Text w="35%">{product.name}</Text>
 
-                    <Text fontSize="sm">
-                      &#8363;{formatPrice(product.price)}
-                    </Text>
-                    <IconButton
-                      size="sm"
-                      variant="ghost"
-                      as={Button}
-                      onClick={() => {
-                        dispatch(addToCart({ product, qty: 1 }));
-                        toast({
-                          title: `${product.name} has been added to your cart`,
-                          status: "success",
-                        });
-                      }}
-                      aria-label="Add item to cart"
-                      icon={<AddIcon />}
-                    />
-                  </Flex>
-                ))
+                          <Text fontSize="sm">
+                            &#8363;{formatPrice(product.price)}
+                          </Text>
+                          <IconButton
+                            size="sm"
+                            variant="ghost"
+                            as={Button}
+                            onClick={() => {
+                              dispatch(addToCart({ product, qty: 1 }));
+                              toast({
+                                title: `${product.name} has been added to your cart`,
+                                status: "success",
+                              });
+                            }}
+                            aria-label="Add item to cart"
+                            icon={<AddIcon />}
+                          />
+                        </Flex>
+                      </CSSTransition>
+                    ))}
+                  </TransitionGroup>
+                </>
               ) : (
                 <Text>No items in wishlist</Text>
               )}

@@ -17,15 +17,12 @@ import "focus-visible/dist/focus-visible";
 
 //Binding events.
 Router.events.on("routeChangeStart", (url) => {
-  console.log(`Loading: ${url}`);
   NProgress.start();
 });
 Router.events.on("routeChangeComplete", (url) => {
-  console.log(`Done: ${url}`);
   NProgress.done();
 });
 Router.events.on("routeChangeError", (url) => {
-  console.log(url);
   NProgress.done();
 });
 

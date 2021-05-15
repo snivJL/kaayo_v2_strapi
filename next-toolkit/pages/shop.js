@@ -14,24 +14,26 @@ import {
 } from "../store/product/productSlice";
 
 const Shop = ({ productList, totalProducts }) => {
-  console.log(productList, totalProducts);
-
+  // console.log(productList, totalProducts);
   const router = useRouter();
+
   let searchTerm = router.query.search;
-  let filter = router.query.cat ? router.query.cat.split("_")[0] : null;
+  let filter = router.query.cat ? router.query.cat : null;
   let sort = router.query._sort ? router.query._sort : null;
   let page = router.query.page;
-  console.log(router.query);
 
   const dispatch = useDispatch();
   const product = useSelector((state) => state.product);
   const { products, status, csr } = product;
+
+  console.log(router.query, page);
   useEffect(() => {
     if (searchTerm) dispatch(searchProducts(searchTerm));
   }, [searchTerm]);
   useEffect(() => {
-    if (filter || sort || page || !router.query.cat)
-      dispatch(fetchProducts({ filter, sort, page }));
+    // if (router.query)
+    console.log("fetch useeffect", router.query);
+    dispatch(fetchProducts({ cat: router.query.cat, sort, page }));
   }, [filter, sort, page, router.query.cat]);
   // router.query.cat dependency to fetch if filter is set to "All", route "/shop"
 
@@ -80,6 +82,7 @@ const Shop = ({ productList, totalProducts }) => {
 export const getStaticProps = async () => {
   const res = await fetch("http://localhost:1337/products?_limit=8");
   const data = await res.json();
+  console.log("SSR", data);
   // const countRes = await fetch("http://localhost:1337/products/count");
   // const totalProducts = await countRes.json();
   return {

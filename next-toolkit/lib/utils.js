@@ -27,3 +27,5 @@ export const formatPrice = (price) => {
 };
 
 export const SHIPPING_PRICE = 40000;
+
+export const buildQueryFilters = (filters) => {};
