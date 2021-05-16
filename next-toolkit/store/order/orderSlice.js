@@ -23,6 +23,7 @@ const initialState = {
   district: "",
   paymentMethod: "",
   orderDetail: { cart: [] },
+  discount: 0,
 };
 
 export const createOrder = createAsyncThunk(
@@ -47,6 +48,50 @@ export const getSingleOrder = createAsyncThunk(
       `${process.env.STRAPI_URL}/orders/${orderId}`
     );
     return data;
+  }
+);
+
+export const applyCoupon = createAsyncThunk(
+  "coupons/applyCoupon",
+  async (params, { rejectWithValue, getState }) => {
+    try {
+      const { values } = params;
+      let cart = [...getState().order.cart];
+      let updatedCart = [];
+      console.log("IN COUPON REDUCER", values, cart);
+      console.log("order state", getState().order);
+      const { data } = await api.get(
+        `${process.env.NEXT_PUBLIC_STRAPI_URL}/coupons`
+      );
+
+      const coupon = data.filter((c) => c.name === values.coupon)[0];
+      console.log(coupon, "Coupon FOUND");
+      if (coupon) {
+        //Update each cart item if categories match coupon
+        cart.map((i) => {
+          let filtered = i.product.categories.filter((value) =>
+            coupon.categories.some((el) => el.name === value.name)
+          );
+          const updatedItem =
+            filtered.length > 0
+              ? {
+                  ...i,
+                  product: {
+                    ...i.product,
+                    discount: (i.product.price * coupon.discount) / 100,
+                  },
+                }
+              : i;
+          updatedCart = [...updatedCart, updatedItem];
+        });
+        return { updatedCart, coupon };
+      } else {
+        return rejectWithValue({ error: "Coupon not found or expired" });
+      }
+    } catch (error) {
+      console.error("reject with value: ", error.message);
+      return rejectWithValue(error.message ? error.message : error);
+    }
   }
 );
 
@@ -155,6 +200,20 @@ export const orderSlice = createSlice({
     [getSingleOrder.rejected]: (state, action) => {
       state.status = "failed";
       state.error = action.error.message;
+    },
+    [applyCoupon.pending]: (state, action) => {
+      state.status = "loading";
+    },
+    [applyCoupon.fulfilled]: (state, action) => {
+      state.status = "succeeded";
+      state.error = "";
+      state.cart = action.payload.updatedCart;
+      state.appliedCoupon = action.payload.coupon;
+    },
+    [applyCoupon.rejected]: (state, action) => {
+      console.log("ERROR", action);
+      state.status = "failed";
+      state.error = action.payload.error;
     },
   },
 });

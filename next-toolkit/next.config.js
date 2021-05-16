@@ -1,9 +1,6 @@
 module.exports = {
-  env: {
-    STRAPI_URL: "http://localhost:1337",
-  },
   images: {
-    domains: ["localhost"],
+    domains: [process.env.IMAGES_DOMAIN],
   },
 };
 

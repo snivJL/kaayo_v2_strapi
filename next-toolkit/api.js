@@ -2,7 +2,7 @@ import axios from "axios";
 import Cookie from "js-cookie";
 
 const api = axios.create({
-  baseURL: "http://localhost:1337",
+  baseURL: process.env.NEXT_PUBLIC_STRAPI_URL,
 });
 
 api.interceptors.request.use(

@@ -52,8 +52,11 @@
       "dominant": true
     },
     "reviews": {
-      "via": "product",
-      "collection": "review"
+      "collection": "review",
+      "via": "product"
+    },
+    "discount": {
+      "type": "decimal"
     }
   }
 }

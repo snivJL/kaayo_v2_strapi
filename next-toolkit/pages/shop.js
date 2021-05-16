@@ -26,13 +26,11 @@ const Shop = ({ productList, totalProducts }) => {
   const product = useSelector((state) => state.product);
   const { products, status, csr } = product;
 
-  console.log(router.query, page);
   useEffect(() => {
     if (searchTerm) dispatch(searchProducts(searchTerm));
   }, [searchTerm]);
   useEffect(() => {
     // if (router.query)
-    console.log("fetch useeffect", router.query);
     dispatch(fetchProducts({ cat: router.query.cat, sort, page }));
   }, [filter, sort, page, router.query.cat]);
   // router.query.cat dependency to fetch if filter is set to "All", route "/shop"
@@ -80,11 +78,8 @@ const Shop = ({ productList, totalProducts }) => {
 };
 
 export const getStaticProps = async () => {
-  const res = await fetch("http://localhost:1337/products?_limit=8");
+  const res = await fetch(`${process.env.STRAPI_URL}/products?_limit=8`);
   const data = await res.json();
-  console.log("SSR", data);
-  // const countRes = await fetch("http://localhost:1337/products/count");
-  // const totalProducts = await countRes.json();
   return {
     props: {
       productList: data.products,

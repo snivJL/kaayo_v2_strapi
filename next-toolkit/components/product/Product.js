@@ -1,17 +1,9 @@
-import {
-  Box,
-  Text,
-  Button,
-  VStack,
-  Grid,
-  GridItem,
-  Flex,
-} from "@chakra-ui/react";
+import { Box, Text, Button, VStack, Grid, GridItem } from "@chakra-ui/react";
 import Link from "next/link";
 import Image from "next/image";
 import { getStrapiMedia } from "../../lib/media";
 import Rating from "../../components/product/Rating";
-import { getAverageRating, formatPrice } from "../../lib/utils";
+import { formatPrice } from "../../lib/utils";
 import { addToCart } from "../../store/order/orderSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { faEye, faHeart } from "@fortawesome/free-regular-svg-icons";
@@ -154,9 +146,6 @@ const Product = ({ product, maxW = "250px" }) => {
           &#8363;
           {formatPrice(product.price)}
         </Text>
-        {/* <Button onClick={() => dispatch(addToCart(product))}>
-          Add to cart
-        </Button> */}
       </VStack>
     </Box>
   );

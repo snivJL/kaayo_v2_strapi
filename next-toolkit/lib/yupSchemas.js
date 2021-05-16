@@ -39,3 +39,10 @@ export const shippingSchema = Yup.object().shape({
 export const searchTermSchema = Yup.object().shape({
   searchTerm: Yup.string().required(""),
 });
+
+export const couponSchema = Yup.object().shape({
+  coupon: Yup.string()
+    .matches(/^[A-Z]*$/, "Coupon code must be in uppercase")
+    .required("Please enter your coupon code"),
+});
+// .matches(/^[A-Z]*$/, "Coupon code must be in uppercase")

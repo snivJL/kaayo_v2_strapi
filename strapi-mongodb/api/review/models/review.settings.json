@@ -45,8 +45,8 @@
       "required": false
     },
     "product": {
-      "model": "product",
-      "via": "reviews"
+      "via": "reviews",
+      "model": "product"
     }
   }
 }

@@ -6,6 +6,7 @@ import auth from "./auth/authSlice";
 import review from "./review/reviewSlice";
 import order from "./order/orderSlice";
 import wishlist from "./wishlist/wishlistSlice";
+import coupon from "./coupon/couponSlice";
 
 const reducers = combineReducers({
   count,
@@ -14,6 +15,7 @@ const reducers = combineReducers({
   review,
   order,
   wishlist,
+  coupon,
 });
 
 export default reducers;

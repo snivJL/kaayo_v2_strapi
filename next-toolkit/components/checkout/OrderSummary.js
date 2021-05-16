@@ -49,7 +49,7 @@ const OrderSummary = () => {
               <Stack w="20%" align="start">
                 <Text>
                   {VND()}
-                  {formatPrice(i.product.price)}
+                  {formatPrice(i.product.price - (i.product.discount || 0))}
                 </Text>
                 <ProductQtyForm item={i} index={index} />
                 <Button

@@ -1,0 +1,38 @@
+{
+  "kind": "collectionType",
+  "collectionName": "coupons",
+  "info": {
+    "name": "coupon",
+    "description": ""
+  },
+  "options": {
+    "increments": true,
+    "timestamps": true,
+    "draftAndPublish": true
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true,
+      "regex": "^[A-Z]*$",
+      "unique": true
+    },
+    "active": {
+      "type": "boolean",
+      "required": true
+    },
+    "categories": {
+      "collection": "category"
+    },
+    "description": {
+      "type": "string",
+      "required": true
+    },
+    "discount": {
+      "type": "integer",
+      "required": true,
+      "max": 100,
+      "min": 1
+    }
+  }
+}

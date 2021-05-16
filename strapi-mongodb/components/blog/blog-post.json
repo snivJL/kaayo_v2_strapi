@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_blog_blog_posts",
+  "info": {
+    "name": "BlogPost",
+    "icon": "pencil-alt"
+  },
+  "options": {},
+  "attributes": {
+    "Title": {
+      "type": "string"
+    },
+    "Content": {
+      "type": "richtext"
+    },
+    "images": {
+      "collection": "file",
+      "via": "related",
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos"
+      ],
+      "plugin": "upload",
+      "required": false
+    }
+  }
+}

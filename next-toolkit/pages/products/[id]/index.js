@@ -193,7 +193,9 @@ const product = ({ product }) => {
 };
 
 export const getStaticProps = async (ctx) => {
-  const res = await fetch(`http://localhost:1337/products/${ctx.params.id}`);
+  const res = await fetch(
+    `${process.env.STRAPI_URL}/products/${ctx.params.id}`
+  );
   const product = await res.json();
   return {
     props: {
@@ -202,7 +204,7 @@ export const getStaticProps = async (ctx) => {
   };
 };
 export const getStaticPaths = async () => {
-  const res = await fetch("http://localhost:1337/products");
+  const res = await fetch(`${process.env.STRAPI_URL}/products`);
   const productList = await res.json();
   const ids = productList.products.map((p) => p.id);
   const paths = ids.map((id) => ({ params: { id: id.toString() } }));
