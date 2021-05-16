@@ -14,7 +14,7 @@ const ProductCarousel = ({ images }) => {
       emulateTouch={true}
     >
       {images.map((i) => (
-        <Box cursor="grab">
+        <Box key={i.id} cursor="grab">
           <img src={i.name} alt="Picture of the product" />
           {/* <p className="legend">Legend 1</p> */}
         </Box>

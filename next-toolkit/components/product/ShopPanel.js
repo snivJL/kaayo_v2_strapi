@@ -15,13 +15,15 @@ const filters = [
 const ShopPanel = () => {
   const router = useRouter();
   const handleFilter = (e) => {
+    e.preventDefault();
+    console.log(router.query, "HEREEEEEEEE");
     filters.map((f) => (f.name === e.target.name ? (f.active = !f.active) : f));
-    const route = filters
+    let route = filters
       .filter((f) => f.active)
       .reduce((acc, f) => acc + `cat=${f.name.replace(" ", "_")}&`, "")
       .slice(0, -1)
       .toLowerCase();
-
+    if (router.query._sort) route + router.query._sort;
     router.push(`/shop?${route}`);
   };
   return (

@@ -13,10 +13,14 @@ import { getStrapiMedia } from "../../lib/media";
 import Rating from "../../components/product/Rating";
 import { getAverageRating, formatPrice } from "../../lib/utils";
 import { addToCart } from "../../store/order/orderSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { faEye, faHeart } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useToast } from "@chakra-ui/react";
+import {
+  addToWishlist,
+  removeFromWishlist,
+} from "../../store/wishlist/wishlistSlice";
 const ImageRef = React.forwardRef(({ onClick, href }, ref) => {
   return (
     <a href={href} onClick={onClick} ref={ref}>
@@ -27,6 +31,8 @@ const ImageRef = React.forwardRef(({ onClick, href }, ref) => {
 const Product = ({ product, maxW = "250px" }) => {
   const toast = useToast();
   const dispatch = useDispatch();
+  const { wishlist } = useSelector((state) => state.wishlist);
+  const inWishlist = wishlist.find((p) => p.id === product.id);
   return (
     <Box
       borderWidth="1px"
@@ -43,7 +49,7 @@ const Product = ({ product, maxW = "250px" }) => {
 
         <Box className="product-card-hidden" pos="absolute">
           <Image
-            src={getStrapiMedia(product.images[1])}
+            src={product.images[0].formats.small.url}
             width={300}
             height={350}
           />
@@ -61,17 +67,34 @@ const Product = ({ product, maxW = "250px" }) => {
             gap={0}
             bg="primary.500"
           >
-            <GridItem
-              transition="all 0.3s"
-              colSpan={1}
-              h="100%"
-              _hover={{ background: "primary.900" }}
-            >
-              <FontAwesomeIcon
-                style={{ height: "100%" }}
-                icon={faHeart}
-              ></FontAwesomeIcon>
-            </GridItem>
+            {inWishlist ? (
+              <GridItem
+                onClick={() => dispatch(removeFromWishlist(product))}
+                transition="all 0.3s"
+                colSpan={1}
+                h="100%"
+                _hover={{ background: "primary.900" }}
+              >
+                <FontAwesomeIcon
+                  style={{ height: "100%" }}
+                  icon={faHeart}
+                  color="red"
+                ></FontAwesomeIcon>
+              </GridItem>
+            ) : (
+              <GridItem
+                onClick={() => dispatch(addToWishlist(product))}
+                transition="all 0.3s"
+                colSpan={1}
+                h="100%"
+                _hover={{ background: "primary.900" }}
+              >
+                <FontAwesomeIcon
+                  style={{ height: "100%" }}
+                  icon={faHeart}
+                ></FontAwesomeIcon>
+              </GridItem>
+            )}
 
             {/* <Box h="100%" p={2} my={0}></Box> */}
             <GridItem
