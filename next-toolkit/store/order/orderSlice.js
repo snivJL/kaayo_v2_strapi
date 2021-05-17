@@ -13,6 +13,10 @@ const initialState = {
     typeof window !== "undefined"
       ? JSON.parse(window.localStorage.getItem("orderPrice"))
       : 0,
+  appliedCoupon:
+    typeof window !== "undefined"
+      ? JSON.parse(window.localStorage.getItem("appliedCoupon"))
+      : {},
   error: "",
   email: "",
   phone: "",
@@ -58,14 +62,12 @@ export const applyCoupon = createAsyncThunk(
       const { values } = params;
       let cart = [...getState().order.cart];
       let updatedCart = [];
-      console.log("IN COUPON REDUCER", values, cart);
-      console.log("order state", getState().order);
+
       const { data } = await api.get(
         `${process.env.NEXT_PUBLIC_STRAPI_URL}/coupons`
       );
 
       const coupon = data.filter((c) => c.name === values.coupon)[0];
-      console.log(coupon, "Coupon FOUND");
       if (coupon) {
         //Update each cart item if categories match coupon
         cart.map((i) => {
@@ -84,7 +86,10 @@ export const applyCoupon = createAsyncThunk(
               : i;
           updatedCart = [...updatedCart, updatedItem];
         });
-        return { updatedCart, coupon };
+        const totalPrice = updatedCart.reduce((acc, item) => {
+          return acc + (item.product.price - item.product.discount) * item.qty;
+        }, 0);
+        return { updatedCart, totalPrice, coupon };
       } else {
         return rejectWithValue({ error: "Coupon not found or expired" });
       }
@@ -120,6 +125,8 @@ export const orderSlice = createSlice({
         return acc + item.product.price * item.qty;
       }, 0);
       localStorage.setItem("orderPrice", state.price);
+      //  reset coupon for now until more specs "if item added to cart"
+      if (state.appliedCoupon) state.appliedCoupon = null;
 
       // console.log(JSON.stringify(current(state.cart)));
       // () => Cookie.set("cart", current(state.cart));
@@ -131,6 +138,8 @@ export const orderSlice = createSlice({
         ? state.cart.map((x) => (x.product.id === payload.id ? x.qty-- : x))
         : state.error === "Product does not exist";
       localStorage.setItem("cart", JSON.stringify(current(state.cart)));
+      //  reset coupon for now until more specs "if item added to cart"
+      if (state.appliedCoupon) state.appliedCoupon = null;
     },
     updateCart(state, action) {
       state.cart.splice(0, state.cart.length, ...action.payload);
@@ -139,6 +148,8 @@ export const orderSlice = createSlice({
       }, 0);
       localStorage.setItem("cart", JSON.stringify(current(state.cart)));
       localStorage.setItem("orderPrice", state.price);
+      //  reset coupon for now until more specs "if item added to cart"
+      if (state.appliedCoupon) state.appliedCoupon = null;
     },
     clearCart(state, action) {
       if (action.payload) {
@@ -156,6 +167,8 @@ export const orderSlice = createSlice({
       }, 0);
       localStorage.setItem("cart", JSON.stringify(current(state.cart)));
       localStorage.setItem("orderPrice", state.price);
+      //  reset coupon for now until more specs "if item added to cart"
+      if (state.appliedCoupon) state.appliedCoupon = null;
     },
 
     addEmail(state, action) {
@@ -173,6 +186,19 @@ export const orderSlice = createSlice({
     addPaymentMethod(state, action) {
       const { payload } = action;
       state.paymentMethod = payload;
+    },
+    removeCoupon(state) {
+      state.appliedCoupon = null;
+      state.cart.map((x) =>
+        x.product.discount > 0
+          ? { ...x, product: { ...x.product, discount: 0 } }
+          : x
+      );
+      state.price = state.cart.reduce((acc, item) => {
+        return acc + item.product.price * item.qty;
+      }, 0);
+      localStorage.setItem("cart", JSON.stringify(current(state.cart)));
+      localStorage.setItem("orderPrice", state.price);
     },
   },
   extraReducers: {
@@ -205,10 +231,15 @@ export const orderSlice = createSlice({
       state.status = "loading";
     },
     [applyCoupon.fulfilled]: (state, action) => {
+      const { updatedCart, coupon, totalPrice } = action.payload;
+      localStorage.setItem("cart", JSON.stringify(updatedCart));
+      state.cart = updatedCart;
       state.status = "succeeded";
       state.error = "";
-      state.cart = action.payload.updatedCart;
-      state.appliedCoupon = action.payload.coupon;
+      state.appliedCoupon = coupon;
+      state.price = totalPrice;
+      localStorage.setItem("orderPrice", totalPrice);
+      localStorage.setItem("appliedCoupon", JSON.stringify(coupon));
     },
     [applyCoupon.rejected]: (state, action) => {
       console.log("ERROR", action);
@@ -228,6 +259,7 @@ export const {
   addShipping,
   addPaymentMethod,
   clearItemFromCart,
+  removeCoupon,
 } = orderSlice.actions;
 
 export const cart = (state) => state.order.cart;

@@ -51,6 +51,11 @@ const OrderSummary = () => {
                   {VND()}
                   {formatPrice(i.product.price - (i.product.discount || 0))}
                 </Text>
+                {console.log(
+                  "PRIX CHELOU",
+                  i.product.price - (i.product.discount || 0),
+                  i.product.discount
+                )}
                 <ProductQtyForm item={i} index={index} />
                 <Button
                   fontSize="sm"
@@ -66,7 +71,7 @@ const OrderSummary = () => {
           <Text>Cart is empty</Text>
         )}
       </Flex>
-      <Coupon />
+      {/* <Coupon /> */}
       <Flex my={4} direction="column">
         <Flex color="gray.500" justify="space-between">
           <Text>Subtotal</Text>

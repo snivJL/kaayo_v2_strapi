@@ -26,7 +26,9 @@ const PaymentForm = ({ handleStep }) => {
           <Tab onClick={() => setPaymentMethod("paypal")}>Paypal</Tab>
         </TabList>
         <TabPanels>
-          <TabPanel>{/* <Coupon /> */}</TabPanel>
+          <TabPanel>
+            <Coupon />
+          </TabPanel>
           <TabPanel>
             <p>two!</p>
           </TabPanel>
