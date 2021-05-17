@@ -26,14 +26,7 @@ const Product = ({ product, maxW = "250px" }) => {
   const { wishlist } = useSelector((state) => state.wishlist);
   const inWishlist = wishlist.find((p) => p.id === product.id);
   return (
-    <Box
-      borderWidth="1px"
-      borderRadius="md"
-      maxW={maxW}
-      mx="auto"
-      pb={2}
-      // bg="white"
-    >
+    <Box borderWidth="1px" borderRadius="md" maxW={maxW} mx="auto" pb={2}>
       <Box className="product-card" pos="relative">
         <Image
           width={300}
@@ -41,7 +34,6 @@ const Product = ({ product, maxW = "250px" }) => {
           quality={30}
           src={product.images[0].name}
         ></Image>
-
         <Box className="product-card-hidden" pos="absolute">
           <Link href={`/products/${product.id}`} passHref>
             <ImageRef imageUrl={product.images[1].name} />
