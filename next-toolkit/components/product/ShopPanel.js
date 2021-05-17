@@ -1,6 +1,5 @@
 import React from "react";
 import { Flex, Text, Button } from "@chakra-ui/react";
-import FilterBar from "./FilterBar";
 import SortBar from "./SortBar";
 import { useSelector } from "react-redux";
 import { useRouter } from "next/router";
@@ -28,9 +27,6 @@ const ShopPanel = () => {
   };
   return (
     <>
-      <Flex align="center" borderRadius="4px" bg="primary.500" mb={8}>
-        <FilterBar />
-      </Flex>
       <Flex align="center" borderRadius="4px" bg="primary.500" mb={8}>
         {filters.map((x, index) => (
           <Button

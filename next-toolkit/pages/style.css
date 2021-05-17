@@ -59,14 +59,12 @@
 
 .pagination .active {
   background-color: rgb(157, 173, 127);
-  padding: 0.5rem;
   color: white;
   margin: 0 0.2rem;
 }
 
 .pagination > li {
   border: 1px solid rgb(157, 173, 127);
-  padding: 0.5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -74,6 +72,13 @@
   height: 36px;
   transition: all 0.3s linear;
   margin: 0 0.2rem;
+}
+
+.pagination > li > a {
+  width: 100%;
+  padding: 0.5rem;
+
+  text-align: center;
 }
 a {
   outline: none;
