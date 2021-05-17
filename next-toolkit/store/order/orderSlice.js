@@ -127,9 +127,6 @@ export const orderSlice = createSlice({
       localStorage.setItem("orderPrice", state.price);
       //  reset coupon for now until more specs "if item added to cart"
       if (state.appliedCoupon) state.appliedCoupon = null;
-
-      // console.log(JSON.stringify(current(state.cart)));
-      // () => Cookie.set("cart", current(state.cart));
     },
     removeFromCart(state, action) {
       const { payload } = action;

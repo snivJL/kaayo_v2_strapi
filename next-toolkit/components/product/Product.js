@@ -13,10 +13,10 @@ import {
   addToWishlist,
   removeFromWishlist,
 } from "../../store/wishlist/wishlistSlice";
-const ImageRef = React.forwardRef(({ onClick, href }, ref) => {
+const ImageRef = React.forwardRef(({ onClick, href, imageUrl }, ref) => {
   return (
     <a href={href} onClick={onClick} ref={ref}>
-      <Image src="/images/christopher.png" width={300} height={350} />
+      <Image src={imageUrl} width={300} height={350} />
     </a>
   );
 });
@@ -35,16 +35,17 @@ const Product = ({ product, maxW = "250px" }) => {
       // bg="white"
     >
       <Box className="product-card" pos="relative">
-        <Link href={`/products/${product.id}`} passHref>
-          <ImageRef />
-        </Link>
+        <Image
+          width={300}
+          height={350}
+          quality={30}
+          src={product.images[0].name}
+        ></Image>
 
         <Box className="product-card-hidden" pos="absolute">
-          <Image
-            src={product.images[0].formats.small.url}
-            width={300}
-            height={350}
-          />
+          <Link href={`/products/${product.id}`} passHref>
+            <ImageRef imageUrl={product.images[1].name} />
+          </Link>
         </Box>
         <Box
           className="product-card-actions"

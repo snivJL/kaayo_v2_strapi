@@ -14,7 +14,7 @@ import {
 } from "../store/product/productSlice";
 
 const Shop = ({ productList, totalProducts }) => {
-  // console.log(productList, totalProducts);
+  console.log(productList, totalProducts);
   const router = useRouter();
 
   let searchTerm = router.query.search;
